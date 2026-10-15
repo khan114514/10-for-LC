@@ -1,0 +1,20 @@
+test_crash_between_intent_and_launch_is_replayed_once (test_manager.ManagerTests) ... ok
+test_deleted_old_evidence_enters_repair_and_can_complete_new_revision (test_manager.ManagerTests) ... ok
+test_different_zip_or_changed_report_cannot_consensus (test_manager.ManagerTests) ... ok
+test_failed_qa_is_repaired_and_both_reviews_are_new (test_manager.ManagerTests) ... ok
+test_fake_effective_duration_rejected (test_manager.ManagerTests) ... ok
+test_finalize_cannot_change_frozen_task_after_dual (test_manager.ManagerTests) ... ok
+test_nonfinite_stability_is_rejected (test_manager.ManagerTests) ... ok
+test_noop_repair_is_not_a_new_revision (test_manager.ManagerTests) ... ok
+test_old_trajectory_evidence_cannot_change_before_release (test_manager.ManagerTests) ... ok
+test_path_escape_and_secret_environment_are_rejected (test_manager.ManagerTests) ... ok
+test_pause_keeps_running_job_and_resume_does_not_duplicate (test_manager.ManagerTests) ... ok
+test_production_plan_rejects_compressed_times_and_same_models (test_manager.ManagerTests) ... ok
+test_resolved_driver_input_starts_a_fresh_attempt (test_manager.ManagerTests) ... ok
+test_sparse_report_cannot_pass (test_manager.ManagerTests) ... ok
+test_supervisor_process_exit_does_not_kill_worker (test_manager.ManagerTests) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 26.015s
+
+OK

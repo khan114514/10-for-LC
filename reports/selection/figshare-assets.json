@@ -1,0 +1,122 @@
+{
+  "checked_on": "2026-10-15",
+  "assets": [
+    {
+      "asset": "sleepeeg",
+      "article": 19930178,
+      "version": 1,
+      "metadata_url": "https://api.figshare.com/v2/articles/19930178/versions/1",
+      "title": "TF-C Pretrain SleepEEG",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "files": [
+        {
+          "id": 35454791,
+          "name": "test.pt",
+          "size": 72975555,
+          "download_url": "https://ndownloader.figshare.com/files/35454791",
+          "computed_md5": "4ba2419fa1ea8df732f92a662a659656",
+          "supplied_md5": "4ba2419fa1ea8df732f92a662a659656"
+        },
+        {
+          "id": 35454794,
+          "name": "train.pt",
+          "size": 299813443,
+          "download_url": "https://ndownloader.figshare.com/files/35454794",
+          "computed_md5": "602808189d952bf5771109c6b98421a4",
+          "supplied_md5": "602808189d952bf5771109c6b98421a4"
+        },
+        {
+          "id": 35454797,
+          "name": "val.pt",
+          "size": 87046915,
+          "download_url": "https://ndownloader.figshare.com/files/35454797",
+          "computed_md5": "44eaa4ce28a47426d4013118fd1682b1",
+          "supplied_md5": "44eaa4ce28a47426d4013118fd1682b1"
+        }
+      ],
+      "status": "METADATA_AVAILABLE_ASSETS_NOT_DOWNLOADED"
+    },
+    {
+      "asset": "epilepsy",
+      "article": 19930199,
+      "version": 1,
+      "metadata_url": "https://api.figshare.com/v2/articles/19930199/versions/1",
+      "title": "TF-C Pretrain Epilepsy",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "files": [
+        {
+          "id": 35454833,
+          "name": "test.pt",
+          "size": 16354499,
+          "download_url": "https://ndownloader.figshare.com/files/35454833",
+          "computed_md5": "7dadaa3cb3b919b9632fbe1ae0c3a410",
+          "supplied_md5": "7dadaa3cb3b919b9632fbe1ae0c3a410"
+        },
+        {
+          "id": 35454836,
+          "name": "train.pt",
+          "size": 86979,
+          "download_url": "https://ndownloader.figshare.com/files/35454836",
+          "computed_md5": "d8b4a3bb729539cc49bf2256a5ccf98d",
+          "supplied_md5": "d8b4a3bb729539cc49bf2256a5ccf98d"
+        },
+        {
+          "id": 35454839,
+          "name": "val.pt",
+          "size": 29699,
+          "download_url": "https://ndownloader.figshare.com/files/35454839",
+          "computed_md5": "fdf0587262ea901282cd92b3b495bf09",
+          "supplied_md5": "fdf0587262ea901282cd92b3b495bf09"
+        }
+      ],
+      "status": "METADATA_AVAILABLE_ASSETS_NOT_DOWNLOADED"
+    },
+    {
+      "asset": "epilepsy",
+      "article": 19930199,
+      "version": 2,
+      "metadata_url": "https://api.figshare.com/v2/articles/19930199/versions/2",
+      "title": "TF-C Pretrain Epilepsy",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "files": [
+        {
+          "id": 38858817,
+          "name": "test.pt",
+          "size": 16354407,
+          "download_url": "https://ndownloader.figshare.com/files/38858817",
+          "computed_md5": "eb8565ad951ef2c5ae189d69620b50a3",
+          "supplied_md5": "eb8565ad951ef2c5ae189d69620b50a3"
+        },
+        {
+          "id": 38858820,
+          "name": "train.pt",
+          "size": 86887,
+          "download_url": "https://ndownloader.figshare.com/files/38858820",
+          "computed_md5": "45bb201e2a630bb5381f971f600cf9cf",
+          "supplied_md5": "45bb201e2a630bb5381f971f600cf9cf"
+        },
+        {
+          "id": 38858823,
+          "name": "val.pt",
+          "size": 29699,
+          "download_url": "https://ndownloader.figshare.com/files/38858823",
+          "computed_md5": "fdf0587262ea901282cd92b3b495bf09",
+          "supplied_md5": "fdf0587262ea901282cd92b3b495bf09"
+        }
+      ],
+      "status": "METADATA_AVAILABLE_ASSETS_NOT_DOWNLOADED"
+    }
+  ]
+}

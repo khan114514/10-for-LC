@@ -1,0 +1,522 @@
+{
+  "schema_version": 1,
+  "prepared_on": "2026-10-15",
+  "status": "PREPARATION_ONLY",
+  "tasks": [
+    {
+      "id": "consisgad",
+      "title": "Consistency Training with Learnable Data Augmentation for Graph Anomaly Detection with Limited Supervision",
+      "venue": "ICLR",
+      "link": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/80eecea10dc05e23db2f90c9d4567153-Abstract-Conference.html",
+      "repo": "Xtra-Computing/ConsisGAD",
+      "name": "ConsisGAD",
+      "year": 2024,
+      "scope": "Amazon 主任务；YelpChi 作为固定第二场景，分别冻结有限标签比例与切分",
+      "metric": "ROC-AUC 为主、PR-AUC 和少数类召回为质量门；先冻结阈值选择规则",
+      "baseline": "保留完整关系图骨干、可学习增强器和一致性训练。Amazon 原配置 100 epochs、每轮 128 次训练迭代；训练是否充分由曲线和真实 steps 核验。",
+      "assets": [
+        "DGL 自带 FraudAmazonDataset/FraudYelpDataset；官方来源见固定版本 README。预取数据后保存原包、处理结果和切分 SHA256；不得把私有标签交给 Actor。"
+      ],
+      "upstream_command": "python main.py --config 'config/amazon.yml' --runs 5",
+      "files": [
+        "main.py",
+        "models.py",
+        "config/amazon.yml",
+        "config/yelp.yml",
+        "requirements.txt",
+        "modules/data_loader.py"
+      ],
+      "methods": [
+        "SoftAttentionDrop：特征/关系条件化增强分布，改变噪声生成机制；保留完整信息预算。",
+        "UDA_train_epoch：置信度校准与一致性样本选择，修改目标和选择策略。",
+        "simpleGNN_MR：异配关系下的邻居聚合或消息门控，必须是模块实现。"
+      ],
+      "repairs": [
+        "原训练同时访问验证与测试 loader；改成训练仅可见独立 Dev，最终测试由 Verifier 执行。",
+        "把配置中的 GPU 序号改成容器内设备映射；两边相同。多次运行必须重新初始化模型、优化器、增强器和 RNG。",
+        "记录标签比例、标签采样 seed、图边可见范围；无标签节点特征可见性须预先约定。"
+      ],
+      "difficulty_reason": "两个可训练部分与一致性/监督目标共同更新；稀标签关系图的采样、验证选优和独立权重重载必须一致，完整闭环有多处状态耦合。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "36811c5bc79be49c9740f25a1f260496bb4736af",
+      "source_url": "https://github.com/Xtra-Computing/ConsisGAD",
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE"
+      ],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.5455,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/consisgad-difficulty.json",
+      "card": "tasks/01-consisgad.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "timesiam",
+      "title": "TimeSiam: A Pre-Training Framework for Siamese Time-Series Modeling",
+      "venue": "ICML",
+      "link": "https://proceedings.mlr.press/v235/dong24e.html",
+      "repo": "thuml/TimeSiam",
+      "name": "TimeSiam",
+      "year": 2024,
+      "scope": "ETTh1 + ETTh2；PatchTST 编码器；预测长度 96/192/336/720，预训练后分别微调",
+      "metric": "八个固定 dataset×horizon case 的 MSE 均值（越低越好）；各 case MAE 为质量门",
+      "baseline": "保留时间配对、lineage embedding 和 Siamese reconstruction 的完整 TimeSiam；示例预训练 50 epochs 后四个 horizon 微调。每个训练 seed 从初始化预训练，再派生各 horizon。",
+      "assets": [
+        "官方 README 的 Google Drive/Tsinghua 数据镜像；目标文件 dataset/ETT-small/ETTh1.csv、ETTh2.csv。也可从原始 ETT 作者仓获取，但必须验证内容一致并冻结哈希。",
+        "无需现成论文 checkpoint；正式 B/R 从头预训练，公开下载权重只可作独立 smoke 对照。"
+      ],
+      "upstream_command": "bash scripts/TimeSiam/ETT_script/PatchTST_ETTh1.sh",
+      "files": [
+        "exp/pretrain.py",
+        "models/PatchTST.py",
+        "data_provider/data_loader.py",
+        "scripts/TimeSiam/ETT_script/PatchTST_ETTh1.sh",
+        "scripts/TimeSiam/ETT_script/PatchTST_ETTh2.sh",
+        "requirements.txt"
+      ],
+      "methods": [
+        "时间配对采样：依赖跨度、周期性或难度的采样机制。",
+        "Lineage 表征：离散/连续时间距离编码与融合模块。",
+        "掩码重建：跨分支信息融合或预测目标形式，不只改 mask 比例。"
+      ],
+      "repairs": [
+        "严格按时间切分，标准化只拟合训练段；窗口和目标不能穿越切分边界。",
+        "预训练只读训练段；逐项记录 checkpoint→微调→评测血缘，禁止共享跨 seed 的预训练权重充当独立训练。",
+        "脚本含多个命令，必须收集每个子命令退出码并实现失败即停，不能以最后一个子命令成功掩盖先前失败。"
+      ],
+      "difficulty_reason": "预训练权重迁移到多个微调模型，再汇总八个未来时间预测 case；时间边界和各模型 checkpoint 血缘共同决定指标有效性。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "c06f05df6197af0d780fae16b272ee4bd7d54ed9",
+      "source_url": "https://github.com/thuml/TimeSiam",
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE"
+      ],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.595,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/timesiam-difficulty.json",
+      "card": "tasks/02-timesiam.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "simmtm",
+      "title": "SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling",
+      "venue": "NeurIPS",
+      "link": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html",
+      "repo": "thuml/SimMTM",
+      "name": "SimMTM",
+      "year": 2023,
+      "scope": "分类分支：SleepEEG 无标签预训练 → Epilepsy 小样本迁移；与 TF-C 使用不同方法接口",
+      "metric": "Macro-F1 为主，balanced accuracy/各类召回为质量门；类别顺序与阈值冻结",
+      "baseline": "保留 masked-series 相似度学习、邻域加权聚合和逐点重建。源码默认预训练 10 epochs、微调默认 300（run.sh 有 100 的覆盖）；预检明确采用哪套完整配置并冻结，不随 B/R 结果改变。",
+      "assets": [
+        "源码 download_datasets.sh：SleepEEG figshare article 19930178 v1；Epilepsy article 19930199 v1。与 TF-C 的 v2 不应静默混用。",
+        "真实目录是 SimMTM_Classification，README 的 SimMTM_Class 名称过时；数据需放在 dataloader 实际解析路径，逐项记录 tensor shape/标签映射/划分哈希。"
+      ],
+      "upstream_command": "cd SimMTM_Classification\npython code/main.py --training_mode pre_train --pretrain_dataset SleepEEG --target_dataset Epilepsy",
+      "files": [
+        "SimMTM_Classification/code/main.py",
+        "SimMTM_Classification/code/trainer.py",
+        "SimMTM_Classification/code/model.py",
+        "SimMTM_Classification/code/dataloader.py",
+        "SimMTM_Classification/download_datasets.sh",
+        "SimMTM_Classification/run.sh"
+      ],
+      "methods": [
+        "掩码生成器：片段/频率结构感知的重建扰动。",
+        "邻域聚合：样本相似度校准、错误邻居抑制或稀疏权重机制。",
+        "重建目标：多尺度一致性或重建与迁移特征协同，不只改变损失系数。"
+      ],
+      "repairs": [
+        "trainer 在预训练中周期性启动下游微调并报告测试最优；改成公开 Dev 选择，私有测试只由独立评测读取。",
+        "检查 ckp_best 保存对象：正式输出必须包含实际选中微调 encoder 和 classifier，不能只保存原预训练模型；新增独立进程重载评分。",
+        "原多阶段嵌套成本不能按一个 epoch 估计。预训练与微调均须记入资源预算，不能用同一预训练权重冒充多次独立训练。",
+        "公开 EEG 数据的受试者/片段来源需要检查；无法重建 subject split 时只声明基准切分表现，不声称跨受试者或临床泛化。"
+      ],
+      "difficulty_reason": "源码预训练中嵌套重新微调和选优，且预训练与微调模型的保存对象不同；需完整贯通两个训练阶段、Dev 选择和正确模型重载。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "169513bef74fb676e48d98a0e30f8823793f691c",
+      "source_url": "https://github.com/thuml/SimMTM",
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": [],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6061,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/simmtm-difficulty.json",
+      "card": "tasks/03-simmtm.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "tfc",
+      "title": "Self-Supervised Contrastive Pre-Training for Time Series via Time-Frequency Consistency",
+      "venue": "NeurIPS",
+      "link": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/194b8dac525581c346e30a2cebe9a369-Abstract-Conference.html",
+      "repo": "mims-harvard/TFC-pretraining",
+      "name": "TF-C",
+      "year": 2022,
+      "scope": "SleepEEG 无标签预训练 → Epilepsy 小样本分类；时间与频率双编码器",
+      "metric": "Macro-F1 为主，balanced accuracy/各类召回为质量门；类别和小样本预算冻结",
+      "baseline": "保留时间、频率双编码器、各自增强和跨域一致性目标；下游分类器独立训练。完整训练轮数由官方配置与真实收敛预检共同确认，两边共用。",
+      "assets": [
+        "download_datasets.sh：SleepEEG https://figshare.com/ndownloader/articles/19930178/versions/1；Epilepsy https://figshare.com/ndownloader/articles/19930199/versions/2。",
+        "下载清单覆盖多个数据集；此题只准备上述两项，不运行无关下载。SleepEEG 规模约 37 万样本，成本需实际计时。"
+      ],
+      "upstream_command": "cd code/TFC\npython main.py --training_mode pre_train --pretrain_dataset SleepEEG --target_dataset Epilepsy\npython main.py --training_mode fine_tune_test --pretrain_dataset SleepEEG --target_dataset Epilepsy",
+      "files": [
+        "code/TFC/main.py",
+        "code/TFC/trainer.py",
+        "code/TFC/model.py",
+        "code/TFC/dataloader.py",
+        "download_datasets.sh",
+        "code/config_files/SleepEEG_Configs.py",
+        "code/config_files/Epilepsy_Configs.py"
+      ],
+      "methods": [
+        "频率增强：保相位/频段结构的扰动策略。",
+        "时频一致性：跨域对齐目标、正负样本选择和坍缩防护。",
+        "双分支融合：按样本或频带条件化融合，保留训练和推理接口。"
+      ],
+      "repairs": [
+        "trainer 的 valid_dl 实际用于优化，不能按变量名把它当 Dev；重建明确的 target-train/Dev/private-test 语义。",
+        "源码每轮测试并报告最佳 F1/KNN；全部选择改为 Dev，不能在私有集挑 epoch、分类头或 KNN 设置。",
+        "固定保存两套 encoder、projection、classifier 及预处理参数，独立重载；官方预训练权重不替代正式独立训练。",
+        "处理后数据不保证可追溯受试者划分；验收明确为固定公共 benchmark，不能宣称临床效果。"
+      ],
+      "difficulty_reason": "两个编码器的预训练、迁移分类头和多种评估路径耦合；源码 loader 角色与命名不一致，必须实现可信划分、权重迁移和独立重载闭环。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "96675826e9ef234a9b01cc63d484c66cb0441bc0",
+      "source_url": "https://github.com/mims-harvard/TFC-pretraining",
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE",
+        "code/baselines/SimCLR/LICENSE"
+      ],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.585,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/tfc-difficulty.json",
+      "card": "tasks/04-tfc.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "graphmae2",
+      "title": "GraphMAE2: A Decoding-Enhanced Masked Self-Supervised Graph Learner",
+      "venue": "WWW",
+      "link": "https://doi.org/10.1145/3543507.3583379",
+      "repo": "THUDM/GraphMAE2",
+      "name": "GraphMAE2",
+      "year": 2023,
+      "scope": "ogbn-arxiv mini-batch 表征学习；PubMed 仅用于 smoke，正式评分不替代 arxiv",
+      "metric": "官方 ogbn-arxiv 节点分类 accuracy；固定线性探针容量、预算和 temporal split",
+      "baseline": "完整 GraphMAE2：多次 remasking、latent target teacher、EMA 与下游线性探针。arxiv 配置预训练 60 epochs、探针 1000 epochs；以充分训练证据审核，不删 teacher 或降低探针预算。",
+      "assets": [
+        "OGB 原生下载 ogbn-arxiv；固定版本与原始 split。",
+        "local cluster 需要 LocalGraphClustering；作者可下载预生成簇 https://cloud.tsinghua.edu.cn/d/64f859f389ca43eda472/ 或从同一图重建，固定构建程序、seed 和簇哈希。"
+      ],
+      "upstream_command": "bash run_minibatch.sh ogbn-arxiv 0",
+      "files": [
+        "main_large.py",
+        "models/edcoder.py",
+        "models/finetune.py",
+        "configs/ogbn-arxiv.yaml",
+        "datasets/localclustering.py",
+        "datasets/lc_sampler.py",
+        "run_minibatch.sh",
+        "requirements.txt"
+      ],
+      "methods": [
+        "remasking 调度与重建目标的结构化替换。",
+        "teacher 目标更新和置信度选择，保持稳定性约束。",
+        "局部簇采样/上下文覆盖机制，保持数据和总训练预算。"
+      ],
+      "repairs": [
+        "把簇预处理的版本与图哈希绑定；不得在 Dev/test 标签上构造采样权重。",
+        "保留官方时间切分；允许的 transductive 公开特征/边须明确，私有标签隔离。",
+        "线性探针与表征权重分别保存，重新评分从冻结权重重载；评测协议变化两边同步。"
+      ],
+      "difficulty_reason": "簇预处理→双目标掩码训练→表征导出→固定线性探针，多级资产与 EMA 状态需绑定；mini-batch 与完整图评测有独立实现边界。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24–48GB 作为预检申请范围；簇缓存和 CPU 内存另行测量，不承诺最低配置",
+      "commit": "bc473e8b750d6e90b7cba1c6bb20d858f617d90c",
+      "source_url": "https://github.com/THUDM/GraphMAE2",
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE"
+      ],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.5854,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/graphmae2-difficulty.json",
+      "card": "tasks/05-graphmae2.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "bgrl",
+      "title": "Large-Scale Representation Learning on Graphs via Bootstrapping",
+      "venue": "ICLR",
+      "link": "https://openreview.net/forum?id=0UXT6PpRpW",
+      "repo": "nerdslab/bgrl",
+      "name": "BGRL",
+      "year": 2022,
+      "scope": "PPI inductive multi-label 节点表征学习；不以 WikiCS 替代正式任务",
+      "metric": "micro-F1，固定独立线性评估器；逐图结果与少数标签覆盖作为质量检查",
+      "baseline": "完整 online encoder、predictor、EMA target 和双图增强。PPI 配置 10,000 steps、batch=22、每 1,000 steps 原评估一次；最终训练充分性以曲线和实际步数审查。",
+      "assets": [
+        "torch_geometric.datasets.PPI 原生公开数据，缓存原包、图边/特征/标签和官方 train/val/test 图划分。",
+        "上游 PyTorch 1.9.1 / PyG 扩展组合较旧；容器需锁兼容 wheel，而非运行时临时安装。"
+      ],
+      "upstream_command": "python3 train_ppi.py --flagfile=config/ppi.cfg\npython3 linear_eval_ppi.py --flagfile=config-eval/ppi.cfg",
+      "files": [
+        "train_ppi.py",
+        "linear_eval_ppi.py",
+        "config/ppi.cfg",
+        "config-eval/ppi.cfg",
+        "bgrl/bgrl.py"
+      ],
+      "methods": [
+        "拓扑/特征联合视图生成，避免损毁稀疏标签对应结构。",
+        "predictor 与 online/target 表征匹配目标。",
+        "EMA 更新或正样本一致性机制，改动必须影响方法而非单个系数。"
+      ],
+      "repairs": [
+        "源码预训练把 train 和 val 的无标签图合并；正式协议明确允许范围，不能包含 private-test 图。若 Dev 图要求隔离，两边共同移出。",
+        "定期线性评估暴露 test 指标，改成 Dev；测试由隔离评测器读取。",
+        "PPI 保存文件名沿用 bgrl-wikics.pt，统一修正命名并核验实际 payload、编码器结构和线性评估器一致。"
+      ],
+      "difficulty_reason": "跨多个独立图训练 online/target 编码器，并用单独多标签评估器得到最终指标；预训练图集合与评估图集合、两类 checkpoint 均需一致绑定。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "60f9f19ad0598f9163ad70ebbde3e7297760901e",
+      "source_url": "https://github.com/nerdslab/bgrl",
+      "license_status": "Apache-2.0（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE.md"
+      ],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6721,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/bgrl-difficulty.json",
+      "card": "tasks/06-bgrl.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "afgrl",
+      "title": "Augmentation-Free Self-Supervised Learning on Graphs",
+      "venue": "AAAI",
+      "link": "https://ojs.aaai.org/index.php/AAAI/article/view/20700",
+      "repo": "Namkyeong/AFGRL",
+      "name": "AFGRL",
+      "year": 2022,
+      "scope": "WikiCS 节点聚类；固定同一图和无监督选择规则",
+      "metric": "固定评估种子集合上的 NMI 均值；ARI 与聚类退化率为质量门",
+      "baseline": "保留局部邻接一致性、全局聚类正例和 EMA teacher。使用原节点聚类脚本参数、完整训练；不能把聚类正例退化为随机采样作为正式 B。",
+      "assets": [
+        "PyG WikiCS 公共资产；分别锁图预处理与聚类评估 seed。",
+        "依赖 PyTorch/PyG/FAISS；上游旧版本需预先在 Linux GPU 环境编译验证。"
+      ],
+      "upstream_command": "python main.py --dataset wikics --embedder AFGRL --task clustering --layers '[1024]' --pred_hid 2048 --lr 0.001 --topk 8 --device 0 --mad 0.9",
+      "files": [
+        "models/AFGRL.py",
+        "main.py",
+        "run_node_clustering.sh",
+        "embedder.py"
+      ],
+      "methods": [
+        "局部与全局正例的交集/软一致性判定。",
+        "聚类置信度驱动的正样本挖掘，避免错误正例扩散。",
+        "teacher 表征与邻域更新策略，保证不读取隐藏标签。"
+      ],
+      "repairs": [
+        "Neighbor.forward 构造稠密相似矩阵并重复 CPU FAISS KMeans；先测峰值内存和训练耗时，不能仅按 GPU 显存推断可行性。",
+        "源码顶层固定 seed；改为显式训练 seed 和聚类 seed，并记录每次独立初始化。",
+        "训练和 checkpoint 选择不得读节点标签；无监督训练目标选择规则预先冻结。最终评测 KMeans 多 seed 不能冒充多次 encoder 训练。"
+      ],
+      "difficulty_reason": "官方实现同时构造 N×N 相似度并在训练过程中反复执行 CPU KMeans；两条信号支持 30 分钟内稳定单变量结论可能困难，尚未实测，若实测不成立必须降级或换题。",
+      "hard_dimension": "O4",
+      "resource": "先申请单卡 24GB、CPU 内存至少 32GB 进行容量预检；这是规划值，不是已验证最低需求",
+      "commit": "95095f4c18a54e2bda3f8a85d5e42fb9a4ce74e7",
+      "source_url": "https://github.com/Namkyeong/AFGRL",
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": [],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6442,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/afgrl-difficulty.json",
+      "card": "tasks/07-afgrl.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "lightgcl",
+      "title": "LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation",
+      "venue": "ICLR",
+      "link": "https://openreview.net/forum?id=FKXVK9dyMM",
+      "repo": "HKUDS/LightGCL",
+      "name": "LightGCL",
+      "year": 2023,
+      "scope": "Gowalla 全物品召回；冻结从 train 划出的 Dev",
+      "metric": "Recall@20 为主、NDCG@20 为质量门；对所有合法物品排序，屏蔽训练已交互项",
+      "baseline": "完整 LightGCL：低秩 SVD 全局视图、局部图传播、跨视图对比与 BPR。默认 100 epochs，Gowalla 示例 lambda2=0；不得移除 SVD 造弱 B。",
+      "assets": [
+        "固定源码含 data/gowalla/trnMat.pkl 与 tstMat.pkl；仅检查树和文件引用，尚未反序列化。",
+        "处理资产需在可信隔离准备环境转换为可审计的稀疏数值格式，再冻结哈希；Dev 从原训练交互中一次性划出。"
+      ],
+      "upstream_command": "python main.py --data gowalla --lambda2 0",
+      "files": [
+        "main.py",
+        "model.py",
+        "parser.py",
+        "utils.py"
+      ],
+      "methods": [
+        "谱分量选择与全局视图重构机制；保持低秩因子计算。",
+        "用户/物品度感知的正负样本选择与对比目标。",
+        "局部传播和全局信息的融合模块，避免只改温度或 SVD rank。"
+      ],
+      "repairs": [
+        "原实现每三轮测试；改为固定 Dev 选择，独立 test 不用于调参。",
+        "先划 Dev 再拟合训练图/SVD，不能用测试或 Dev 交互构图；固定随机 SVD 与负采样 seed。",
+        "保存可独立重建的权重、ID 映射及 SVD 因子；禁止无意物化巨型 dense user×item 矩阵。"
+      ],
+      "difficulty_reason": "每轮全图多层传播与跨视图目标，并在全部用户/物品上排序；再加完整独立 seed 集，30 分钟低方差比较的可行性尚需 GPU 实测，当前为受控高成本预评。",
+      "hard_dimension": "O4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "5590453ad86782f58017e58d0b698d7f32175be3",
+      "source_url": "https://github.com/HKUDS/LightGCL",
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": [],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6892,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/lightgcl-difficulty.json",
+      "card": "tasks/08-lightgcl.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "dccf",
+      "title": "Disentangled Contrastive Collaborative Filtering",
+      "venue": "SIGIR",
+      "link": "https://doi.org/10.1145/3539618.3591665",
+      "repo": "HKUDS/DCCF",
+      "name": "DCCF",
+      "year": 2023,
+      "scope": "Tmall 全物品推荐；从原 train 冻结独立 Dev",
+      "metric": "Recall@20 为主、NDCG@20 为质量门；固定全物品候选与交互过滤",
+      "baseline": "完整 DCCF：潜在意图表征、自适应图增强、多个视图的对比与推荐损失。官方 Tmall 命令 100 epochs 并使用最终 epoch；作者先验证该规则健康，B/R 共用冻结选择策略。",
+      "assets": [
+        "固定源码 data/tmall 的 train/test pickle 与索引文件；README 说明 Tmall/Gowalla 已将 validation 并入 train。",
+        "重新切出 Dev 后重建所有派生索引和归一化邻接；切分不能在后续搜索中变化或再次并回训练。"
+      ],
+      "upstream_command": "python DCCF_PyTorch.py --dataset tmall --epoch 100",
+      "files": [
+        "DCCF_PyTorch.py",
+        "model.py",
+        "utility/parser.py"
+      ],
+      "methods": [
+        "意图分解与分配约束，避免意图坍缩。",
+        "意图条件化的图边权/视图构造策略。",
+        "跨意图/跨视图对比目标与负样本选择，保持相同监督信息。"
+      ],
+      "repairs": [
+        "新 Dev 的全部交互必须从训练图和派生缓存移除；原 README 的合并流程不可沿用到研究迭代。",
+        "顶层固定 seed 改为显式成对 seed；每次从头训练并保存最终模型，而非重测一次模型。",
+        "完整记录四类视图的内存峰值和全物品排名耗时；内存修复 B/R 同享。"
+      ],
+      "difficulty_reason": "全图意图分解、多视图 SSL 和全物品排序同时存在；跨 seed 的低方差改善不能由单次短测证明，30 分钟闭环困难属于待实测的受控推断。",
+      "hard_dimension": "O4",
+      "resource": "单卡 24–48GB 作为预检范围；若完整 Tmall 超限，冻结前改预算或换题，不能正式阶段只缩短 B",
+      "commit": "c9bcac4fee2e15d1a02a1396470b3ec29b5177d1",
+      "source_url": "https://github.com/HKUDS/DCCF",
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": [],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.7339,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/dccf-difficulty.json",
+      "card": "tasks/09-dccf.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    },
+    {
+      "id": "adagcl",
+      "title": "Adaptive Graph Contrastive Learning for Recommendation",
+      "venue": "KDD",
+      "link": "https://doi.org/10.1145/3580305.3599768",
+      "repo": "HKUDS/AdaGCL",
+      "name": "AdaGCL",
+      "year": 2023,
+      "scope": "LastFM 自适应图对比推荐；Yelp 仅作为后续固定扩展，不默认并入本题",
+      "metric": "Recall@20 为主、NDCG@20 为质量门；使用原 val 切分进行选择",
+      "baseline": "完整推荐器、可训练生成视图与去噪视图及耦合目标。LastFM 示例 gamma=-0.95、ib_reg=1e-2；Params 默认 200 epochs，须按实际参数解析和曲线确认充分训练。",
+      "assets": [
+        "固定源码 Datasets/lastFM/{trnMat,valMat,tstMat}.pkl；严格使用原三分法，转换后保存一致性和哈希记录。",
+        "Model.py 多套网络和 Main.py 多优化器需要整体保存，单一推荐 embedding 不一定能重建训练或推理状态。"
+      ],
+      "upstream_command": "python Main.py --data lastfm --gamma -0.95 --ib_reg 1e-2",
+      "files": [
+        "Main.py",
+        "Model.py",
+        "Params.py",
+        "DataHandler.py"
+      ],
+      "methods": [
+        "生成图视图的边分布/结构先验与采样机制。",
+        "DenoisingNet 的可学习过滤目标与图一致性策略。",
+        "推荐器与两个视图的训练耦合/更新规则，区别于固定 SVD 或意图解耦。"
+      ],
+      "repairs": [
+        "默认 GPU 参数与 .cuda 路径需核对，按容器设备映射统一修正；预检保存实际 argv。",
+        "每轮 test 改成 val 选择；私有 test 只在正式评测中使用。",
+        "分别保存生成器、去噪器、推荐器与各自优化状态，检查重载后的实际预测一致性；固定随机视图采样 seed。"
+      ],
+      "difficulty_reason": "生成式图模块、去噪网络和推荐器由多个优化器协同更新；checkpoint 完整性、视图采样和最终排名必须贯通验证。",
+      "hard_dimension": "E4",
+      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
+      "commit": "6359f1ed568bf3f99d6351848b9a0c7391c1c93f",
+      "source_url": "https://github.com/HKUDS/AdaGCL",
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": [],
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.7402,
+      "difficulty": "困难（预评）",
+      "difficulty_evidence": "reports/selection/adagcl-difficulty.json",
+      "card": "tasks/10-adagcl.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false
+    }
+  ]
+}

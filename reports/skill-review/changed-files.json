@@ -1,0 +1,40 @@
+{
+  "qa_files_changed": 0,
+  "changes": [
+    {
+      "file": "SKILL.md",
+      "before_sha256": "41faa9a19adaa92ba2802fcdecf9254913198d398e3aeee2db9cbf4351fe7c6e",
+      "after_sha256": "ed95f0609fb43f133ce844d3607c9bce133a0b1caeb3b4f6be0c1e0728dceaba"
+    },
+    {
+      "file": "references/runtime-contract.md",
+      "before_sha256": "b87fe32adec35f77f7797148375af31139259205e197f295ac79a96d66b34df8",
+      "after_sha256": "0a29ffc6b8c496abb0a614d31e5b6bc1a9f2c11b09a2b1331141bcb629a46c00"
+    },
+    {
+      "file": "scripts/manager.py",
+      "before_sha256": "dd08489cd2b21e91c99f7f38eef2322349255fe05f79dbd093bb7299bbbac9c1",
+      "after_sha256": "e7dbc35e2972340b8f638d71efbfed2bfad8137ec8357ade580b63630535b611"
+    },
+    {
+      "file": "scripts/test_adversarial_recovery.py",
+      "before_sha256": null,
+      "after_sha256": "b100d392966c2fe51bacf1631b3b926eb8c4836ff143bcc835d7967a755d95af"
+    },
+    {
+      "file": "scripts/test_input_markers.py",
+      "before_sha256": null,
+      "after_sha256": "7265420d2dccf733895eddb438f9540bddcd9346ff123802b3cef12b4ef66298"
+    },
+    {
+      "file": "scripts/test_manager.py",
+      "before_sha256": "b5b558186e9ab2b5981cf5e69818644863ac391890ef083913e181cebcfabdc2",
+      "after_sha256": "5ab63fbe18e20b66c65968970699bc8c8261955f4f1233b34daa9c69c1e32a7b"
+    },
+    {
+      "file": "scripts/test_recovery_regressions.py",
+      "before_sha256": null,
+      "after_sha256": "97d126419f39b0107b954b4677a3d8ab861b9a7134a2d9558d8d3c76ed7efd78"
+    }
+  ]
+}

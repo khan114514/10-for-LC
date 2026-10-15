@@ -1,0 +1,170 @@
+{
+  "checked_on": "2026-10-15",
+  "method": "git fetch + fixed-commit source inspection; no upstream training execution",
+  "sources": [
+    {
+      "id": "consisgad",
+      "repo": "https://github.com/Xtra-Computing/ConsisGAD",
+      "commit": "36811c5bc79be49c9740f25a1f260496bb4736af",
+      "paper": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/80eecea10dc05e23db2f90c9d4567153-Abstract-Conference.html",
+      "inspected_files": [
+        "main.py",
+        "models.py",
+        "config/amazon.yml",
+        "config/yelp.yml",
+        "requirements.txt",
+        "modules/data_loader.py"
+      ],
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "timesiam",
+      "repo": "https://github.com/thuml/TimeSiam",
+      "commit": "c06f05df6197af0d780fae16b272ee4bd7d54ed9",
+      "paper": "https://proceedings.mlr.press/v235/dong24e.html",
+      "inspected_files": [
+        "exp/pretrain.py",
+        "models/PatchTST.py",
+        "data_provider/data_loader.py",
+        "scripts/TimeSiam/ETT_script/PatchTST_ETTh1.sh",
+        "scripts/TimeSiam/ETT_script/PatchTST_ETTh2.sh",
+        "requirements.txt"
+      ],
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "simmtm",
+      "repo": "https://github.com/thuml/SimMTM",
+      "commit": "169513bef74fb676e48d98a0e30f8823793f691c",
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html",
+      "inspected_files": [
+        "SimMTM_Classification/code/main.py",
+        "SimMTM_Classification/code/trainer.py",
+        "SimMTM_Classification/code/model.py",
+        "SimMTM_Classification/code/dataloader.py",
+        "SimMTM_Classification/download_datasets.sh",
+        "SimMTM_Classification/run.sh"
+      ],
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": []
+    },
+    {
+      "id": "tfc",
+      "repo": "https://github.com/mims-harvard/TFC-pretraining",
+      "commit": "96675826e9ef234a9b01cc63d484c66cb0441bc0",
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/194b8dac525581c346e30a2cebe9a369-Abstract-Conference.html",
+      "inspected_files": [
+        "code/TFC/main.py",
+        "code/TFC/trainer.py",
+        "code/TFC/model.py",
+        "code/TFC/dataloader.py",
+        "download_datasets.sh",
+        "code/config_files/SleepEEG_Configs.py",
+        "code/config_files/Epilepsy_Configs.py"
+      ],
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE",
+        "code/baselines/SimCLR/LICENSE"
+      ]
+    },
+    {
+      "id": "graphmae2",
+      "repo": "https://github.com/THUDM/GraphMAE2",
+      "commit": "bc473e8b750d6e90b7cba1c6bb20d858f617d90c",
+      "paper": "https://doi.org/10.1145/3543507.3583379",
+      "inspected_files": [
+        "main_large.py",
+        "models/edcoder.py",
+        "models/finetune.py",
+        "configs/ogbn-arxiv.yaml",
+        "datasets/localclustering.py",
+        "datasets/lc_sampler.py",
+        "run_minibatch.sh",
+        "requirements.txt"
+      ],
+      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "bgrl",
+      "repo": "https://github.com/nerdslab/bgrl",
+      "commit": "60f9f19ad0598f9163ad70ebbde3e7297760901e",
+      "paper": "https://openreview.net/forum?id=0UXT6PpRpW",
+      "inspected_files": [
+        "train_ppi.py",
+        "linear_eval_ppi.py",
+        "config/ppi.cfg",
+        "config-eval/ppi.cfg",
+        "bgrl/bgrl.py"
+      ],
+      "license_status": "Apache-2.0（代码）；数据使用条款另外核对",
+      "license_files": [
+        "LICENSE.md"
+      ]
+    },
+    {
+      "id": "afgrl",
+      "repo": "https://github.com/Namkyeong/AFGRL",
+      "commit": "95095f4c18a54e2bda3f8a85d5e42fb9a4ce74e7",
+      "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/20700",
+      "inspected_files": [
+        "models/AFGRL.py",
+        "main.py",
+        "run_node_clustering.sh",
+        "embedder.py"
+      ],
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": []
+    },
+    {
+      "id": "lightgcl",
+      "repo": "https://github.com/HKUDS/LightGCL",
+      "commit": "5590453ad86782f58017e58d0b698d7f32175be3",
+      "paper": "https://openreview.net/forum?id=FKXVK9dyMM",
+      "inspected_files": [
+        "main.py",
+        "model.py",
+        "parser.py",
+        "utils.py"
+      ],
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": []
+    },
+    {
+      "id": "dccf",
+      "repo": "https://github.com/HKUDS/DCCF",
+      "commit": "c9bcac4fee2e15d1a02a1396470b3ec29b5177d1",
+      "paper": "https://doi.org/10.1145/3539618.3591665",
+      "inspected_files": [
+        "DCCF_PyTorch.py",
+        "model.py",
+        "utility/parser.py"
+      ],
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": []
+    },
+    {
+      "id": "adagcl",
+      "repo": "https://github.com/HKUDS/AdaGCL",
+      "commit": "6359f1ed568bf3f99d6351848b9a0c7391c1c93f",
+      "paper": "https://doi.org/10.1145/3580305.3599768",
+      "inspected_files": [
+        "Main.py",
+        "Model.py",
+        "Params.py",
+        "DataHandler.py"
+      ],
+      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
+      "license_files": []
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+test_inflight_peer_is_not_orphaned_by_input (__main__.AdversarialTests) ... ok
+test_task_change_waits_for_running_peer_before_repair (__main__.AdversarialTests) ... ok
+test_retained_evidence_change_waits_for_running_retry (__main__.AdversarialTests) ... ok
+test_failure_precedes_retry_in_either_lane (__main__.AdversarialTests) ... ok
+test_restored_frozen_plan_reuses_finished_jobs (__main__.AdversarialTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 4.125s
+
+OK

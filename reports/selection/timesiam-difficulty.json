@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "evaluated_on": "2026-10-15",
+  "subject_id": "timesiam",
+  "pe_version": "2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "官方源码入口存在；旧依赖的目标 GPU 环境尚未安装验证。"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "公开资产入口已定位，尚未完整下载、解析并计算资产哈希。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "拟用单卡；显存、耗时和拓扑没有实测，不能给低成本保证。"
+    },
+    "E4": {
+      "score": 2,
+      "basis": "code",
+      "note": "预训练权重迁移到多个微调模型，再汇总八个未来时间预测 case；时间边界和各模型 checkpoint 血缘共同决定指标有效性。 代码：https://github.com/thuml/TimeSiam/blob/c06f05df6197af0d780fae16b272ee4bd7d54ed9/exp/pretrain.py, https://github.com/thuml/TimeSiam/blob/c06f05df6197af0d780fae16b272ee4bd7d54ed9/models/PatchTST.py, https://github.com/thuml/TimeSiam/blob/c06f05df6197af0d780fae16b272ee4bd7d54ed9/data_provider/data_loader.py"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "候选贡献已映射到固定版本代码入口，需真实消融确认。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "code",
+      "note": "给出三个模块/策略改动入口，尚未证明各方向可稳定改善。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "infer",
+      "note": "尚未测得 30 分钟内单变量低方差结果。"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 5,
+      "level": "困难",
+      "applied_rules": [
+        "严重项升级：E4=2 → 该轴直接困难"
+      ],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "官方源码入口存在；旧依赖的目标 GPU 环境尚未安装验证。"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "公开资产入口已定位，尚未完整下载、解析并计算资产哈希。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "拟用单卡；显存、耗时和拓扑没有实测，不能给低成本保证。"
+        },
+        "E4": {
+          "score": 2,
+          "basis": "code",
+          "note": "预训练权重迁移到多个微调模型，再汇总八个未来时间预测 case；时间边界和各模型 checkpoint 血缘共同决定指标有效性。 代码：https://github.com/thuml/TimeSiam/blob/c06f05df6197af0d780fae16b272ee4bd7d54ed9/exp/pretrain.py, https://github.com/thuml/TimeSiam/blob/c06f05df6197af0d780fae16b272ee4bd7d54ed9/models/PatchTST.py, https://github.com/thuml/TimeSiam/blob/c06f05df6197af0d780fae16b272ee4bd7d54ed9/data_provider/data_loader.py"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "候选贡献已映射到固定版本代码入口，需真实消融确认。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "code",
+          "note": "给出三个模块/策略改动入口，尚未证明各方向可稳定改善。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "infer",
+          "note": "尚未测得 30 分钟内单变量低方差结果。"
+        }
+      }
+    }
+  },
+  "final_level": "困难",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 1,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "reviewer_confidence": "中；缺少目标机完整复现、收敛和耗时方差证据"
+}

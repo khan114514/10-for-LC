@@ -1,0 +1,9 @@
+test_legacy_input_state_reuses_successful_peer (__main__.InputMarkerTests) ... ok
+test_both_input_jobs_get_exactly_one_new_attempt (__main__.InputMarkerTests) ... ok
+test_restored_qa_assets_collect_finished_jobs (__main__.InputMarkerTests) ... ok
+test_input_and_retry_recover_without_stale_marker (__main__.InputMarkerTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.855s
+
+OK

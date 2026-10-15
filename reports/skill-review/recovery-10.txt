@@ -1,0 +1,15 @@
+test_dual_retry_preserves_successful_lane (__main__.ForwardTests) ... ok
+test_qa_retry_preserves_successful_lane (__main__.ForwardTests) ... ok
+test_dual_resume_input_preserves_successful_lane (__main__.ForwardTests) ... ok
+test_qa_resume_input_preserves_successful_lane (__main__.ForwardTests) ... ok
+test_doctor_rejects_missing_python_driver_script (__main__.ForwardTests) ... ok
+test_preflight_rejects_same_model_disguised_with_version (__main__.ForwardTests) ... ok
+test_retry_does_not_hide_peer_failure (__main__.ForwardTests) ... ok
+test_retained_peer_tampering_prevents_new_dispatch (__main__.ForwardTests) ... ok
+test_retained_qa_peer_completes_consensus_without_rerun (__main__.ForwardTests) ... ok
+test_retained_peer_from_other_revision_is_rejected (__main__.ForwardTests) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.799s
+
+OK

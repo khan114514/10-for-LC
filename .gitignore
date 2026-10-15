@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+.env
+.env.*
+*.pem
+*.key
+/private-runs/
+/author-cache/
+/datasets/
+/checkpoints/

@@ -1,0 +1,46 @@
+{
+  "checked_on": "2026-10-15",
+  "method": "HTTP HEAD; no full assets downloaded",
+  "checks": [
+    {
+      "asset": "sleepeeg_v1",
+      "url": "https://figshare.com/ndownloader/articles/19930178/versions/1",
+      "http_status": 202,
+      "content_type": "text/html; charset=UTF-8",
+      "content_length": "0",
+      "meaning": "HTTP endpoint responded; content completeness and license NOT verified"
+    },
+    {
+      "asset": "epilepsy_v1",
+      "url": "https://figshare.com/ndownloader/articles/19930199/versions/1",
+      "http_status": 202,
+      "content_type": "text/html; charset=UTF-8",
+      "content_length": "0",
+      "meaning": "HTTP endpoint responded; content completeness and license NOT verified"
+    },
+    {
+      "asset": "epilepsy_v2",
+      "url": "https://figshare.com/ndownloader/articles/19930199/versions/2",
+      "http_status": 202,
+      "content_type": "text/html; charset=UTF-8",
+      "content_length": "0",
+      "meaning": "HTTP endpoint responded; content completeness and license NOT verified"
+    },
+    {
+      "asset": "ett_official_mirror",
+      "url": "https://cloud.tsinghua.edu.cn/f/a238e34ff81a42878d50/?dl=1",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": "7221",
+      "meaning": "HTTP endpoint responded; content completeness and license NOT verified"
+    },
+    {
+      "asset": "graphmae2_clusters",
+      "url": "https://cloud.tsinghua.edu.cn/d/64f859f389ca43eda472/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": "7221",
+      "meaning": "HTTP endpoint responded; content completeness and license NOT verified"
+    }
+  ]
+}

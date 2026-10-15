@@ -1,0 +1,34 @@
+{
+  "checked_on": "2026-10-15",
+  "framework_only": true,
+  "manager_sha256": "e7dbc35e2972340b8f638d71efbfed2bfad8137ec8357ade580b63630535b611",
+  "independent_tests": {
+    "existing": 15,
+    "recovery": 10,
+    "adversarial": 5,
+    "input_markers": 4,
+    "status": "PASS"
+  },
+  "delivered_scripts_rerun": {
+    "tests": 34,
+    "status": "PASS"
+  },
+  "real_docker_isolation": {
+    "tests": 1,
+    "status": "PASS",
+    "seconds": 4.774,
+    "model_output": "SIMULATED_NOT_FORMAL_QA"
+  },
+  "skill_quick_validate": "PASS",
+  "source_fetch_smoke": {
+    "id": "consisgad",
+    "commit": "36811c5bc79be49c9740f25a1f260496bb4736af",
+    "status": "PASS"
+  },
+  "all_python_syntax": "PASS",
+  "all_json_parse": "PASS",
+  "formal_gpu_reproduction": "NOT_RUN",
+  "formal_research_tracks": "NOT_RUN",
+  "formal_12h_stability": "NOT_RUN",
+  "formal_dual_AI_QA": "NOT_RUN"
+}

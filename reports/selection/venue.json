@@ -1,0 +1,106 @@
+{
+ "generated_at": "2026-10-15 22:05:20",
+ "policy": "venue-policy.md 2026-09-28",
+ "rows": [
+  {
+   "venue": "ICLR",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 1,
+   "id": "consisgad",
+   "title": "Consistency Training with Learnable Data Augmentation for Graph Anomaly Detectio"
+  },
+  {
+   "venue": "ICML",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 2,
+   "id": "timesiam",
+   "title": "TimeSiam: A Pre-Training Framework for Siamese Time-Series Modeling"
+  },
+  {
+   "venue": "NeurIPS",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 3,
+   "id": "simmtm",
+   "title": "SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling"
+  },
+  {
+   "venue": "NeurIPS",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 4,
+   "id": "tfc",
+   "title": "Self-Supervised Contrastive Pre-Training for Time Series via Time-Frequency Cons"
+  },
+  {
+   "venue": "WWW",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 5,
+   "id": "graphmae2",
+   "title": "GraphMAE2: A Decoding-Enhanced Masked Self-Supervised Graph Learner"
+  },
+  {
+   "venue": "ICLR",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 6,
+   "id": "bgrl",
+   "title": "Large-Scale Representation Learning on Graphs via Bootstrapping"
+  },
+  {
+   "venue": "AAAI",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 7,
+   "id": "afgrl",
+   "title": "Augmentation-Free Self-Supervised Learning on Graphs"
+  },
+  {
+   "venue": "ICLR",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 8,
+   "id": "lightgcl",
+   "title": "LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation"
+  },
+  {
+   "venue": "SIGIR",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 9,
+   "id": "dccf",
+   "title": "Disentangled Contrastive Collaborative Filtering"
+  },
+  {
+   "venue": "KDD",
+   "tier": "顶会",
+   "basis": "会议字段",
+   "risk": "",
+   "action": "",
+   "row": 10,
+   "id": "adacgl",
+   "title": "Adaptive Graph Contrastive Learning for Recommendation"
+  }
+ ]
+}
