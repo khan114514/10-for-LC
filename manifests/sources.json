@@ -1,170 +1,497 @@
 {
-  "checked_on": "2026-10-15",
-  "method": "git fetch + fixed-commit source inspection; no upstream training execution",
+  "checked_on": "2026-10-17",
+  "method": "fixed-commit source inspection; no upstream training execution",
   "sources": [
     {
-      "id": "consisgad",
-      "repo": "https://github.com/Xtra-Computing/ConsisGAD",
-      "commit": "36811c5bc79be49c9740f25a1f260496bb4736af",
-      "paper": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/80eecea10dc05e23db2f90c9d4567153-Abstract-Conference.html",
+      "id": "danet",
+      "repo": "https://github.com/WhatAShot/DANet",
+      "commit": "b007c57121ec9082f6ef19ec7465d9df70767c26",
+      "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/20309",
+      "formal_paper_alternative": null,
       "inspected_files": [
         "main.py",
-        "models.py",
-        "config/amazon.yml",
-        "config/yelp.yml",
-        "requirements.txt",
-        "modules/data_loader.py"
+        "config/default.py",
+        "model/DANet.py",
+        "data/dataset.py",
+        "abstract_model.py"
       ],
-      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "inspected_content": {
+        "README.md": {
+          "sha256": "63be946d39a86852b9bd2dcb5c0a3cadc8e5beca81fe231b77fe4701e49eec2e",
+          "bytes": 4890
+        },
+        "main.py": {
+          "sha256": "fc4a41f47e976af20d647cf49286c1797c29f95172484ef108c08faa1d971412",
+          "bytes": 4055
+        },
+        "config/default.py": {
+          "sha256": "0a5bc33fa99edf1292e93b84ae021235114df0776153d4072a75329e3c4af290",
+          "bytes": 423
+        },
+        "model/DANet.py": {
+          "sha256": "1b59479738eab5df5eb0fedc8669a83a31eff6ff2d3938135324641eadada9c5",
+          "bytes": 4282
+        },
+        "data/dataset.py": {
+          "sha256": "9d76a23e5b947c737e7a453a988f91ae99350f911e1987463d6e090d00b11554",
+          "bytes": 8726
+        },
+        "abstract_model.py": {
+          "sha256": "817afe08b0ad9534b5cc8d1f78d70d757651b6908c92770fbceefaa38d660e06",
+          "bytes": 17237
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
       "license_files": [
         "LICENSE"
-      ]
+      ],
+      "venue_evidence": {
+        "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/20309",
+        "official_readme": "https://github.com/WhatAShot/DANet/blob/b007c57121ec9082f6ef19ec7465d9df70767c26/README.md",
+        "access_note": "正式 proceedings 页面题名/会议与作者仓库交叉核对"
+      }
     },
     {
-      "id": "timesiam",
-      "repo": "https://github.com/thuml/TimeSiam",
-      "commit": "c06f05df6197af0d780fae16b272ee4bd7d54ed9",
-      "paper": "https://proceedings.mlr.press/v235/dong24e.html",
+      "id": "node",
+      "repo": "https://github.com/Qwicen/node",
+      "commit": "3bae6a8a63f0205683270b6d566d9cfa659403e4",
+      "paper": "https://openreview.net/forum?id=r1eiu2VtwH",
+      "formal_paper_alternative": "https://iclr.cc/virtual_2020/papers.html?filter=authors&search=Stanislav+Morozov",
       "inspected_files": [
-        "exp/pretrain.py",
-        "models/PatchTST.py",
-        "data_provider/data_loader.py",
-        "scripts/TimeSiam/ETT_script/PatchTST_ETTh1.sh",
-        "scripts/TimeSiam/ETT_script/PatchTST_ETTh2.sh",
-        "requirements.txt"
+        "lib/data.py",
+        "lib/arch.py",
+        "lib/odst.py",
+        "lib/trainer.py"
       ],
-      "license_status": "MIT（代码）；数据使用条款另外核对",
-      "license_files": [
-        "LICENSE"
-      ]
-    },
-    {
-      "id": "simmtm",
-      "repo": "https://github.com/thuml/SimMTM",
-      "commit": "169513bef74fb676e48d98a0e30f8823793f691c",
-      "paper": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html",
-      "inspected_files": [
-        "SimMTM_Classification/code/main.py",
-        "SimMTM_Classification/code/trainer.py",
-        "SimMTM_Classification/code/model.py",
-        "SimMTM_Classification/code/dataloader.py",
-        "SimMTM_Classification/download_datasets.sh",
-        "SimMTM_Classification/run.sh"
-      ],
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": []
-    },
-    {
-      "id": "tfc",
-      "repo": "https://github.com/mims-harvard/TFC-pretraining",
-      "commit": "96675826e9ef234a9b01cc63d484c66cb0441bc0",
-      "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/194b8dac525581c346e30a2cebe9a369-Abstract-Conference.html",
-      "inspected_files": [
-        "code/TFC/main.py",
-        "code/TFC/trainer.py",
-        "code/TFC/model.py",
-        "code/TFC/dataloader.py",
-        "download_datasets.sh",
-        "code/config_files/SleepEEG_Configs.py",
-        "code/config_files/Epilepsy_Configs.py"
-      ],
-      "license_status": "MIT（代码）；数据使用条款另外核对",
-      "license_files": [
-        "LICENSE",
-        "code/baselines/SimCLR/LICENSE"
-      ]
-    },
-    {
-      "id": "graphmae2",
-      "repo": "https://github.com/THUDM/GraphMAE2",
-      "commit": "bc473e8b750d6e90b7cba1c6bb20d858f617d90c",
-      "paper": "https://doi.org/10.1145/3543507.3583379",
-      "inspected_files": [
-        "main_large.py",
-        "models/edcoder.py",
-        "models/finetune.py",
-        "configs/ogbn-arxiv.yaml",
-        "datasets/localclustering.py",
-        "datasets/lc_sampler.py",
-        "run_minibatch.sh",
-        "requirements.txt"
-      ],
-      "license_status": "MIT（代码）；数据使用条款另外核对",
-      "license_files": [
-        "LICENSE"
-      ]
-    },
-    {
-      "id": "bgrl",
-      "repo": "https://github.com/nerdslab/bgrl",
-      "commit": "60f9f19ad0598f9163ad70ebbde3e7297760901e",
-      "paper": "https://openreview.net/forum?id=0UXT6PpRpW",
-      "inspected_files": [
-        "train_ppi.py",
-        "linear_eval_ppi.py",
-        "config/ppi.cfg",
-        "config-eval/ppi.cfg",
-        "bgrl/bgrl.py"
-      ],
-      "license_status": "Apache-2.0（代码）；数据使用条款另外核对",
+      "inspected_content": {
+        "README.md": {
+          "sha256": "d4bf222d99d3fb42cb26fbc37fb23490fd60c9a4465b0636ae3dcfd43da3e011",
+          "bytes": 1636
+        },
+        "lib/data.py": {
+          "sha256": "cbe0accfd0ce06bf640af27e7f3112338801383f1f92083449853b16c2d21808",
+          "bytes": 23407
+        },
+        "lib/arch.py": {
+          "sha256": "02f9d08cfadc96b3d77c04dbe6720be7a5e165892949944c366439c018e50541",
+          "bytes": 1642
+        },
+        "lib/odst.py": {
+          "sha256": "878fa48cbf3c319dc9909400efe0ed601dae180754ae30997aaf14c94e59b81b",
+          "bytes": 8041
+        },
+        "lib/trainer.py": {
+          "sha256": "68db1c8af0f4a71619ba41aca580eea75329b0d231802a1a1c8f469f515549e7",
+          "bytes": 7596
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
       "license_files": [
         "LICENSE.md"
-      ]
+      ],
+      "venue_evidence": {
+        "paper": "https://openreview.net/forum?id=r1eiu2VtwH",
+        "official_readme": "https://github.com/Qwicen/node/blob/3bae6a8a63f0205683270b6d566d9cfa659403e4/README.md",
+        "access_note": "OpenReview 受验证阻挡；ICLR 2020 官方会议论文列表包含该完整题名与作者，源码 README 不单独证明会议",
+        "conference_listing": "https://iclr.cc/virtual_2020/papers.html?filter=authors&search=Stanislav+Morozov"
+      }
     },
     {
-      "id": "afgrl",
-      "repo": "https://github.com/Namkyeong/AFGRL",
-      "commit": "95095f4c18a54e2bda3f8a85d5e42fb9a4ce74e7",
-      "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/20700",
+      "id": "numemb",
+      "repo": "https://github.com/yandex-research/rtdl-num-embeddings",
+      "commit": "a8fc25025c83f2321c63ff127a3bcef83bb1bfb5",
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/9e9f0ffc3d836836ca96cbf8fe14b105-Abstract-Conference.html",
+      "formal_paper_alternative": null,
       "inspected_files": [
-        "models/AFGRL.py",
-        "main.py",
-        "run_node_clustering.sh",
-        "embedder.py"
+        "bin/train4.py",
+        "lib/deep.py",
+        "lib/data.py",
+        "exp/mlp-plr/california/0_evaluation/0.toml"
       ],
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": []
+      "inspected_content": {
+        "README.md": {
+          "sha256": "2a5a2e30423e68d400824f27a10d3ff0ebc43f7e68842e2b19e81e569025b676",
+          "bytes": 10817
+        },
+        "bin/train4.py": {
+          "sha256": "63f2934d9ff567c999d2047abdb2ec8771c50ba13d87f9c337cceb8fe3362b92",
+          "bytes": 30644
+        },
+        "lib/deep.py": {
+          "sha256": "fcfca667a847dd952233a2bfbf6ac37dada9fb9c99ac4a4b5fb7ecdc4c428da1",
+          "bytes": 5296
+        },
+        "lib/data.py": {
+          "sha256": "199604ae1920332b1cf51fca7729485dda073d71c88208cf1832883df7a63260",
+          "bytes": 14624
+        },
+        "exp/mlp-plr/california/0_evaluation/0.toml": {
+          "sha256": "746695b402ac5ded549b7a4b09cfbba078af4bd0457da8ba6b85caf62a717305",
+          "bytes": 885
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "license_files": [
+        "LICENSE",
+        "package/LICENSE"
+      ],
+      "venue_evidence": {
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/9e9f0ffc3d836836ca96cbf8fe14b105-Abstract-Conference.html",
+        "official_readme": "https://github.com/yandex-research/rtdl-num-embeddings/blob/a8fc25025c83f2321c63ff127a3bcef83bb1bfb5/README.md",
+        "access_note": "正式 proceedings 页面题名/会议与作者仓库交叉核对"
+      }
     },
     {
-      "id": "lightgcl",
-      "repo": "https://github.com/HKUDS/LightGCL",
-      "commit": "5590453ad86782f58017e58d0b698d7f32175be3",
-      "paper": "https://openreview.net/forum?id=FKXVK9dyMM",
+      "id": "rtdl",
+      "repo": "https://github.com/yandex-research/rtdl-revisiting-models",
+      "commit": "e3ed46cac38568785289d8fa16b8cfa585bde27e",
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2021/hash/9d86d83f925f2149e9edb0ac3b49229c-Abstract.html",
+      "formal_paper_alternative": null,
       "inspected_files": [
-        "main.py",
-        "model.py",
-        "parser.py",
-        "utils.py"
+        "bin/ft_transformer.py",
+        "lib/data.py",
+        "output/adult/ft_transformer/tuned/0.toml"
       ],
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": []
+      "inspected_content": {
+        "README.md": {
+          "sha256": "135752a062113540384b92df3b46c5ed3e41fce8b5f556d8c0a04f338a74a2d7",
+          "bytes": 12833
+        },
+        "bin/ft_transformer.py": {
+          "sha256": "2eddb24549aa322840f1e699b80b3ed9137bba2032592c333ad34998310326b3",
+          "bytes": 19110
+        },
+        "lib/data.py": {
+          "sha256": "cabfcf8b5e86af243dd4b6a90eca1015a97e27e3a8013bb57b27db70058e297f",
+          "bytes": 9448
+        },
+        "output/adult/ft_transformer/tuned/0.toml": {
+          "sha256": "7d9501811c85955b436e9cab055f54b55e4d7cd40bfc052012b6b70801262b89",
+          "bytes": 506
+        }
+      },
+      "license_status": "Apache-2.0（根许可证；捆绑组件和数据条款分别核验）",
+      "license_files": [
+        "LICENSE",
+        "package/LICENSE"
+      ],
+      "venue_evidence": {
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2021/hash/9d86d83f925f2149e9edb0ac3b49229c-Abstract.html",
+        "official_readme": "https://github.com/yandex-research/rtdl-revisiting-models/blob/e3ed46cac38568785289d8fa16b8cfa585bde27e/README.md",
+        "access_note": "正式 proceedings 页面题名/会议与作者仓库交叉核对"
+      }
     },
     {
-      "id": "dccf",
-      "repo": "https://github.com/HKUDS/DCCF",
-      "commit": "c9bcac4fee2e15d1a02a1396470b3ec29b5177d1",
-      "paper": "https://doi.org/10.1145/3539618.3591665",
+      "id": "acmgcn",
+      "repo": "https://github.com/SitaoLuan/ACM-GNN",
+      "commit": "75b4853f29b2ce0844283e4a64c4b1120feb295c",
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/092359ce5cf60a80e882378944bf1be4-Abstract-Conference.html",
+      "formal_paper_alternative": null,
       "inspected_files": [
-        "DCCF_PyTorch.py",
-        "model.py",
-        "utility/parser.py"
+        "ACM-Pytorch/train.py",
+        "ACM-Pytorch/arg_parser.py",
+        "ACM-Pytorch/utils.py",
+        "ACM-Pytorch/models/layers.py"
       ],
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": []
+      "inspected_content": {
+        "README.md": {
+          "sha256": "eaa6fc5c3cf6af6a831d81600823bd71f961b28800a0302d00e26864d05694d9",
+          "bytes": 6610
+        },
+        "ACM-Pytorch/train.py": {
+          "sha256": "4ec9867db2c75fa24d7e103128f0ca534677b8dd91164e552ec3a67a4a0a83d3",
+          "bytes": 4748
+        },
+        "ACM-Pytorch/arg_parser.py": {
+          "sha256": "24f80ef812dc809c9a5fe7228685570eeb5e3385c4a9a13c60d467391c2f5518",
+          "bytes": 2742
+        },
+        "ACM-Pytorch/utils.py": {
+          "sha256": "abaecfc2836261694a23ede64058b52d80a966e49763498c678b7f11b3a318c9",
+          "bytes": 22885
+        },
+        "ACM-Pytorch/models/layers.py": {
+          "sha256": "db6fe8b9c767036dab3db0a60c3d39a522a68a2d5ed233a662051f363c72cebc",
+          "bytes": 10644
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "license_files": [
+        "LICENSE"
+      ],
+      "venue_evidence": {
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/092359ce5cf60a80e882378944bf1be4-Abstract-Conference.html",
+        "official_readme": "https://github.com/SitaoLuan/ACM-GNN/blob/75b4853f29b2ce0844283e4a64c4b1120feb295c/README.md",
+        "access_note": "正式 proceedings 页面题名/会议与作者仓库交叉核对"
+      }
     },
     {
-      "id": "adagcl",
-      "repo": "https://github.com/HKUDS/AdaGCL",
-      "commit": "6359f1ed568bf3f99d6351848b9a0c7391c1c93f",
-      "paper": "https://doi.org/10.1145/3580305.3599768",
+      "id": "revins",
+      "repo": "https://github.com/ts-kim/RevIN",
+      "commit": "fee40bc6c87cb536d048bcf1c14c4ed644b875e1",
+      "paper": "https://openreview.net/forum?id=cGDAkQo1C0p",
+      "formal_paper_alternative": null,
       "inspected_files": [
-        "Main.py",
-        "Model.py",
-        "Params.py",
-        "DataHandler.py"
+        "RevIN.py",
+        "baselines/SCINet/run_ETTh.py",
+        "baselines/SCINet/scripts/scinet_with_RevIN.sh",
+        "baselines/SCINet/experiments/exp_ETTh.py",
+        "baselines/SCINet/data_process/etth_data_loader.py",
+        "baselines/SCINet/models/SCINet.py"
       ],
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": []
+      "inspected_content": {
+        "README.md": {
+          "sha256": "661892eefc6f26e0185193b2c82eaed05ccecb266095380dba91fd1645f4554b",
+          "bytes": 3588
+        },
+        "RevIN.py": {
+          "sha256": "b1f64b2933bc0b6fa88c3bf377851cad8a576c78e2d433929aa15d31dab60039",
+          "bytes": 1694
+        },
+        "baselines/SCINet/run_ETTh.py": {
+          "sha256": "3e1ccf776ee0fe288c3c409d7688eaf34a0708cec48f3e28916e6dea44b9c8c6",
+          "bytes": 9670
+        },
+        "baselines/SCINet/scripts/scinet_with_RevIN.sh": {
+          "sha256": "762428d6afe0b8b27dd895b45624ce4795e1b847521c0a9d797b4793c9737952",
+          "bytes": 7153
+        },
+        "baselines/SCINet/experiments/exp_ETTh.py": {
+          "sha256": "2aacce13010d77a065732dba8699ba10aafbe79b0128e4f1a5757752b3c5a052",
+          "bytes": 18303
+        },
+        "baselines/SCINet/data_process/etth_data_loader.py": {
+          "sha256": "0297426b936b6433b6ef3b3ed6e640513c3a822b9e3e7456f93f1b4c05127eae",
+          "bytes": 12953
+        },
+        "baselines/SCINet/models/SCINet.py": {
+          "sha256": "154d909007f32616899b695f91643f67b7c6827cb5aa37370db64f5955e7c483",
+          "bytes": 14891
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "license_files": [
+        "License",
+        "baselines/Informer2020/LICENSE",
+        "baselines/SCINet/LICENSE"
+      ],
+      "venue_evidence": {
+        "paper": "https://openreview.net/forum?id=cGDAkQo1C0p",
+        "official_readme": "https://github.com/ts-kim/RevIN/blob/fee40bc6c87cb536d048bcf1c14c4ed644b875e1/README.md",
+        "access_note": "OpenReview/CVF 页本轮遇到验证/403；以官方作者仓库的接受会议说明交叉核对，未声称成功读取受阻页面"
+      }
+    },
+    {
+      "id": "leddam",
+      "repo": "https://github.com/Levi-Ackman/Leddam",
+      "commit": "5a145f78f4425be73c9b0b0f0ef527730f35afbf",
+      "paper": "https://openreview.net/forum?id=87CYNyCGOo",
+      "formal_paper_alternative": "https://proceedings.mlr.press/v235/yu24s.html",
+      "inspected_files": [
+        "models/Leddam.py",
+        "layers/Leddam.py",
+        "scripts/ETTh2/ETTh2.sh",
+        "exp/exp_long_term_forecasting.py",
+        "data_provider/data_loader.py"
+      ],
+      "inspected_content": {
+        "README.md": {
+          "sha256": "216c273df3c3620cc8699af3bbe84d42ab7bf6dc743d9df823e01a7022bb3904",
+          "bytes": 1874
+        },
+        "models/Leddam.py": {
+          "sha256": "bef7aade5cc0f6b22cfdbe0dddeb30e9360e2cae67a0831a79f35cf18c165b32",
+          "bytes": 1303
+        },
+        "layers/Leddam.py": {
+          "sha256": "5c4c6527065f79b1ee4771ee6a98e068709c576187df8eb0b639f5caf9c4c753",
+          "bytes": 14279
+        },
+        "scripts/ETTh2/ETTh2.sh": {
+          "sha256": "6a67648edbf413d9b812c2fa09c1ee35439c0f9fdc573fe740ce6b2a6faaf86d",
+          "bytes": 1507
+        },
+        "exp/exp_long_term_forecasting.py": {
+          "sha256": "bd8e076078bfb8538d5784617c06b94e74615aef115dab47c7483e85cd17d42c",
+          "bytes": 7434
+        },
+        "data_provider/data_loader.py": {
+          "sha256": "14407dc77811801cfe055aae8c2cafe56be9ef3984c35e6f2a3be9e137ef8bd4",
+          "bytes": 10034
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "license_files": [
+        "LICENSE"
+      ],
+      "venue_evidence": {
+        "paper": "https://openreview.net/forum?id=87CYNyCGOo",
+        "official_readme": "https://github.com/Levi-Ackman/Leddam/blob/5a145f78f4425be73c9b0b0f0ef527730f35afbf/README.md",
+        "access_note": "正式 proceedings 页面题名/会议与作者仓库交叉核对"
+      }
+    },
+    {
+      "id": "ffl",
+      "repo": "https://github.com/EndlessSora/focal-frequency-loss",
+      "commit": "352f69da503f55267d8c148da04ea625ed1c9552",
+      "paper": "https://openaccess.thecvf.com/content/ICCV2021/html/Jiang_Focal_Frequency_Loss_for_Image_Reconstruction_and_Synthesis_ICCV_2021_paper.html",
+      "formal_paper_alternative": null,
+      "inspected_files": [
+        "VanillaAE/models.py",
+        "VanillaAE/networks.py",
+        "VanillaAE/train.py",
+        "VanillaAE/data.py",
+        "VanillaAE/utils.py",
+        "focal_frequency_loss/focal_frequency_loss.py",
+        "scripts/VanillaAE/train/celeba_recon_w_ffl.sh"
+      ],
+      "inspected_content": {
+        "README.md": {
+          "sha256": "340012613be8751fa12f58d8b636a9c85c24a43db4a07aa88777dea35818ef9e",
+          "bytes": 9063
+        },
+        "VanillaAE/models.py": {
+          "sha256": "34f67bbc90c5b20b55b15d2cc6464c85965dd49e3c172375904e64b693f6e1ac",
+          "bytes": 2783
+        },
+        "VanillaAE/networks.py": {
+          "sha256": "3dd8c5f463d7b918a2fcc1438ccda00ca939a67b37a17a0fea7fd9abff408bea",
+          "bytes": 5895
+        },
+        "VanillaAE/train.py": {
+          "sha256": "9e07ecfe20968042fe9b3b90211af67d7578fa16bb897910380bbcb7d81269da",
+          "bytes": 5165
+        },
+        "VanillaAE/data.py": {
+          "sha256": "ea43623b8bcf0ee9f6a57043b26e41670e9b72fd6b816676a95baba04daaf9b4",
+          "bytes": 4016
+        },
+        "VanillaAE/utils.py": {
+          "sha256": "62f4f0af5bb48402ec6b968dc8adddb4d086e1c49fa75678901edd5f5a23fa93",
+          "bytes": 4870
+        },
+        "focal_frequency_loss/focal_frequency_loss.py": {
+          "sha256": "c660acf8adae5645a15154ec7109dafd6a6d4f813a2e5688af236522d8bd62f1",
+          "bytes": 5065
+        },
+        "scripts/VanillaAE/train/celeba_recon_w_ffl.sh": {
+          "sha256": "a48651c6b47a2e3b52f6301941f25b95f3b0a250b3dd83de47a742528cd2014a",
+          "bytes": 583
+        }
+      },
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "license_files": [
+        "LICENSE.md"
+      ],
+      "venue_evidence": {
+        "paper": "https://openaccess.thecvf.com/content/ICCV2021/html/Jiang_Focal_Frequency_Loss_for_Image_Reconstruction_and_Synthesis_ICCV_2021_paper.html",
+        "official_readme": "https://github.com/EndlessSora/focal-frequency-loss/blob/352f69da503f55267d8c148da04ea625ed1c9552/README.md",
+        "access_note": "CVF 直开曾 403；搜索返回 CVF 官方索引的完整题名、ICCV 2021、页码 13919–13929，与官方 README 接受声明一致"
+      }
+    },
+    {
+      "id": "evennet",
+      "repo": "https://github.com/Leirunlin/EvenNet",
+      "commit": "8b0477c01dd7aa3bcf00ea4a368310013978fb84",
+      "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/1e62dae07279cb09d2e87378d10dacfc-Abstract-Conference.html",
+      "formal_paper_alternative": null,
+      "inspected_files": [
+        "src/main_common.py",
+        "src/train_common.py",
+        "src/propagate.py",
+        "src/models.py",
+        "src/parse.py",
+        "src/exp_common.sh"
+      ],
+      "inspected_content": {
+        "README.md": {
+          "sha256": "f9c9805de81e36fb2aa8dd728475612dcf1e0a88c9ffcdf6fe8f32820bb2d654",
+          "bytes": 2703
+        },
+        "src/main_common.py": {
+          "sha256": "98adea4bba2da0d327d4cdc35a1e3e1be6126ea076eec5672651317f2af17a96",
+          "bytes": 2160
+        },
+        "src/train_common.py": {
+          "sha256": "6cfc20cb1f27e132eed70d377296084b132a1f44786789437da75552be54f6c2",
+          "bytes": 4315
+        },
+        "src/propagate.py": {
+          "sha256": "c94b2fdfe09482a6aafe0fe36e35aedb925da48725259a718c3563896df40ed8",
+          "bytes": 20607
+        },
+        "src/models.py": {
+          "sha256": "8a310ef28a16c374a28ee40a7cccc6f01502d66236cff38bc427e75e733891f0",
+          "bytes": 31353
+        },
+        "src/parse.py": {
+          "sha256": "d505c3675324e1807476b9b9ca193f43c8ff142f79a70a59552d83c3d08442e5",
+          "bytes": 7793
+        },
+        "src/exp_common.sh": {
+          "sha256": "2b71e9970bc535c0252c3548ec9627fc366c0c000f1406eb7fa63d3733ba4f10",
+          "bytes": 1496
+        }
+      },
+      "license_status": "未发现根目录许可证；正式再分发需解决授权或独立实现",
+      "license_files": [],
+      "venue_evidence": {
+        "paper": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/1e62dae07279cb09d2e87378d10dacfc-Abstract-Conference.html",
+        "official_readme": "https://github.com/Leirunlin/EvenNet/blob/8b0477c01dd7aa3bcf00ea4a368310013978fb84/README.md",
+        "access_note": "正式 proceedings 页面题名/会议与作者仓库交叉核对"
+      }
+    },
+    {
+      "id": "micn",
+      "repo": "https://github.com/wanghq21/MICN",
+      "commit": "370c69b841d72246556ca05dd23163c560c22b5a",
+      "paper": "https://openreview.net/forum?id=zt53IDUR1U",
+      "formal_paper_alternative": null,
+      "inspected_files": [
+        "models/model.py",
+        "models/local_global.py",
+        "data/data_loader.py",
+        "exp/exp_informer.py",
+        "scripts/ETTh.sh",
+        "run.py"
+      ],
+      "inspected_content": {
+        "README.md": {
+          "sha256": "8c1418f59de94d865e63c3e00ad70be586605f5c7a4d3a1641de2eded1fb10ad",
+          "bytes": 2989
+        },
+        "models/model.py": {
+          "sha256": "61d4ab5c49f222ebadb913b15440b20af9180102f6d37a54bf9f710e5be52cb7",
+          "bytes": 2446
+        },
+        "models/local_global.py": {
+          "sha256": "2eedb77e56e975d47482c3b09af63f4db8dab893e62759a32aa7ba4d7f5e63aa",
+          "bytes": 6614
+        },
+        "data/data_loader.py": {
+          "sha256": "3dc91632bf61a1a29b227326b26842d41c30657ce2dac5148ad2789a97bca841",
+          "bytes": 13555
+        },
+        "exp/exp_informer.py": {
+          "sha256": "7cc4908944ecdf358530f687081a5c28c3e0f1dbed7e9366c576af53382e1745",
+          "bytes": 11566
+        },
+        "scripts/ETTh.sh": {
+          "sha256": "98c1444ef9db6597339060df2e1f2b37300810f44e3392242411322b02eb2145",
+          "bytes": 647
+        },
+        "run.py": {
+          "sha256": "99cc9fa719572b451e210fcace125c1d06e5c40b656a2afbddd0d95664b90af9",
+          "bytes": 7911
+        }
+      },
+      "license_status": "未发现根目录许可证；正式再分发需解决授权或独立实现",
+      "license_files": [],
+      "venue_evidence": {
+        "paper": "https://openreview.net/forum?id=zt53IDUR1U",
+        "official_readme": "https://github.com/wanghq21/MICN/blob/370c69b841d72246556ca05dd23163c560c22b5a/README.md",
+        "access_note": "OpenReview/CVF 页本轮遇到验证/403；以官方作者仓库的接受会议说明交叉核对，未声称成功读取受阻页面"
+      }
     }
   ]
 }

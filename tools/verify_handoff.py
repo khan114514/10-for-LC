@@ -50,12 +50,18 @@ def main():
         if not path.is_file() or sha256(path) != expected:
             failures.append({'path': 'skills/autoresearch-manager/assets/qa-skills/' + relative,
                              'reason': 'original QA source mismatch'})
-    tasks = json.loads((ROOT / 'manifests/tasks.json').read_text())['tasks']
+    batch = json.loads((ROOT / 'manifests/tasks.json').read_text())
+    tasks = batch['tasks']
+    target = batch.get('target_difficulty')
+    if target != '中等':
+        failures.append({'reason': 'current batch must target medium difficulty'})
     ids = {t['id'] for t in tasks}
     if len(tasks) != 10 or len(ids) != 10:
         failures.append({'reason': 'expected ten distinct task IDs'})
     dedup = {r['id']: r for r in json.loads((ROOT / 'reports/selection/dedup.json').read_text())['rows']}
     sources = {r['id']: r for r in json.loads((ROOT / 'manifests/sources.json').read_text())['sources']}
+    if set(sources) != ids or set(dedup) != ids:
+        failures.append({'reason': 'source/dedup IDs do not match the current ten tasks'})
     for task in tasks:
         key = task['id']
         if (task['status'] != 'PREPARATION_ONLY' or task['gpu_reproduction_verified']
@@ -65,8 +71,9 @@ def main():
                 or dedup.get(key, {}).get('dedup') != 'pass'):
             failures.append({'id': key, 'reason': 'task handoff consistency failure'})
         report = json.loads(safe(task['difficulty_evidence']).read_text())
-        if report['final_level'] != '困难' or report['status'] != 'PROVISIONAL_NOT_GPU_VALIDATED':
-            failures.append({'id': key, 'reason': 'missing provisional hard rating'})
+        if (report['final_level'] != target or report['status'] != 'PROVISIONAL_NOT_GPU_VALIDATED'
+                or report['subject_id'] != key or task['difficulty'] != f'{target}（预评）'):
+            failures.append({'id': key, 'reason': 'missing matching provisional medium rating'})
     print(json.dumps({'status': 'FAIL' if failures else 'PASS', 'handoff_files': len(manifest['files']),
                       'tasks': len(tasks), 'qa_files': len(release['files']),
                       'qa_version': release['release']['version'], 'failures': failures},

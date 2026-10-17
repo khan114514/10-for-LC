@@ -1,0 +1,12 @@
+{
+  "content_manifest_sha256": "ee79a364e9b50d331e6c9489fe92e4aa22818fd9835e1f9a64bfb97c9f45ef26",
+  "findings": [],
+  "implementation": "local-strict-protocol-extension/1",
+  "official_upstream_protocol": false,
+  "scanned_bytes_including_nested": 843434,
+  "scanned_payloads": 100,
+  "status": "PASS",
+  "strict": true,
+  "checked_on": "2026-10-17",
+  "scope": "snapshot before adding this privacy report; .git and bytecode excluded"
+}

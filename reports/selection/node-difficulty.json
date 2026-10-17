@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-17 17:01:16",
+  "subject_id": "node",
+  "pe_version": "difficulty-pe.md 2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "固定源码存在，任务适配类型 CLI_ADAPTER_REQUIRED。所选依赖尚未在目标机构建；代码入口：https://github.com/Qwicen/node/blob/3bae6a8a63f0205683270b6d566d9cfa659403e4/lib/data.py"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "A9A 官方 LIBSVM 数据：训练 32,561、测试 16,281、123 维；lib/data.py 已有 fetch_A9A。；保留测试集，train 内冻结分层 Dev 与行 ID。原 Dropbox split 不可用时必须显式形成新合同，不能默默更换切分。 数据/许可证/切分完整性仍需预检。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "单卡预检；作者提示实现显存效率有限，须记录树张量峰值，不能直接承诺低显存。 没有目标 GPU 实测。"
+    },
+    "E4": {
+      "score": 1,
+      "basis": "code",
+      "note": "Dataset/ODST/Trainer 的单阶段组件齐全，CLI、选优与独立重载需装配；没有预训练到下游的第二训练阶段。"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "论文贡献已定位到 lib/data.py, lib/arch.py, lib/odst.py；适配后需通过消融确认实际作用。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "infer",
+      "note": "三个独立候选：ODST：结构化特征选择分布，替换软选择映射，而非只调温度。；软分箱：单调门或校准阈值机制，保持可微树结构。；DenseBlock：跨层树输出与原始特征的选择/聚合机制。 尚未证明可稳定改善健康 B。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "固定源码存在，任务适配类型 CLI_ADAPTER_REQUIRED。所选依赖尚未在目标机构建；代码入口：https://github.com/Qwicen/node/blob/3bae6a8a63f0205683270b6d566d9cfa659403e4/lib/data.py"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "A9A 官方 LIBSVM 数据：训练 32,561、测试 16,281、123 维；lib/data.py 已有 fetch_A9A。；保留测试集，train 内冻结分层 Dev 与行 ID。原 Dropbox split 不可用时必须显式形成新合同，不能默默更换切分。 数据/许可证/切分完整性仍需预检。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "单卡预检；作者提示实现显存效率有限，须记录树张量峰值，不能直接承诺低显存。 没有目标 GPU 实测。"
+        },
+        "E4": {
+          "score": 1,
+          "basis": "code",
+          "note": "Dataset/ODST/Trainer 的单阶段组件齐全，CLI、选优与独立重载需装配；没有预训练到下游的第二训练阶段。"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "论文贡献已定位到 lib/data.py, lib/arch.py, lib/odst.py；适配后需通过消融确认实际作用。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "infer",
+          "note": "三个独立候选：ODST：结构化特征选择分布，替换软选择映射，而非只调温度。；软分箱：单调门或校准阈值机制，保持可微树结构。；DenseBlock：跨层树输出与原始特征的选择/聚合机制。 尚未证明可稳定改善健康 B。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        }
+      }
+    }
+  },
+  "final_level": "中等",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 2,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）",
+    "O4: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "scope": "A9A 二分类；可微 oblivious tree ensemble；单阶段",
+  "reviewer_confidence": "中；O3 消融/失败支撑尚未完整核实，O4 的 30min 低方差实验尚未运行，默认 1 分不代表通过",
+  "reassessment_gate": "若 E3/E4/O2/O4 实测为 2 或触发其他困难规则，退出本中等批次；不得通过修改分值、删核心模块或欠训练维持中等"
+}

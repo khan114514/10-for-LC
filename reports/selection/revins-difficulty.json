@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-17 17:01:17",
+  "subject_id": "revins",
+  "pe_version": "difficulty-pe.md 2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "固定源码存在，任务适配类型 NATIVE_SMALL_BENCHMARK。所选依赖尚未在目标机构建；代码入口：https://github.com/ts-kim/RevIN/blob/fee40bc6c87cb536d048bcf1c14c4ed644b875e1/RevIN.py"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "ETDataset 的 ETTh1.csv；版本和下载内容哈希见 ett-assets.json。；按官方小时数据连续时间边界冻结 train/Dev/private；滑窗预测区间不能越过所属划分。历史上下文可重叠，未来标签不能参与归一化。 数据/许可证/切分完整性仍需预检。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "单卡预检；一个窗口、一个数据集，仍保留完整 SCINet 和 RevIN。 没有目标 GPU 实测。"
+    },
+    "E4": {
+      "score": 1,
+      "basis": "code",
+      "note": "归一化、SCINet 和反归一化在一次监督训练内完成；官方单窗口命令与 checkpoint 路径存在。"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "论文贡献已定位到 RevIN.py, baselines/SCINet/run_ETTh.py, baselines/SCINet/scripts/scinet_with_RevIN.sh；适配后需通过消融确认实际作用。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "infer",
+      "note": "三个独立候选：统计量：只用历史窗口的稳健中心/尺度估计器。；仿射映射：由历史模式条件化的可逆变换，主干结构固定。；尺度恢复：按预测跨度估计的历史条件化校准；不得访问未来真值。 尚未证明可稳定改善健康 B。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "固定源码存在，任务适配类型 NATIVE_SMALL_BENCHMARK。所选依赖尚未在目标机构建；代码入口：https://github.com/ts-kim/RevIN/blob/fee40bc6c87cb536d048bcf1c14c4ed644b875e1/RevIN.py"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "ETDataset 的 ETTh1.csv；版本和下载内容哈希见 ett-assets.json。；按官方小时数据连续时间边界冻结 train/Dev/private；滑窗预测区间不能越过所属划分。历史上下文可重叠，未来标签不能参与归一化。 数据/许可证/切分完整性仍需预检。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "单卡预检；一个窗口、一个数据集，仍保留完整 SCINet 和 RevIN。 没有目标 GPU 实测。"
+        },
+        "E4": {
+          "score": 1,
+          "basis": "code",
+          "note": "归一化、SCINet 和反归一化在一次监督训练内完成；官方单窗口命令与 checkpoint 路径存在。"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "论文贡献已定位到 RevIN.py, baselines/SCINet/run_ETTh.py, baselines/SCINet/scripts/scinet_with_RevIN.sh；适配后需通过消融确认实际作用。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "infer",
+          "note": "三个独立候选：统计量：只用历史窗口的稳健中心/尺度估计器。；仿射映射：由历史模式条件化的可逆变换，主干结构固定。；尺度恢复：按预测跨度估计的历史条件化校准；不得访问未来真值。 尚未证明可稳定改善健康 B。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        }
+      }
+    }
+  },
+  "final_level": "中等",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 2,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）",
+    "O4: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "scope": "ETTh1 多变量；输入 96，预测 48；固定 SCINet 主干",
+  "reviewer_confidence": "中；O3 消融/失败支撑尚未完整核实，O4 的 30min 低方差实验尚未运行，默认 1 分不代表通过",
+  "reassessment_gate": "若 E3/E4/O2/O4 实测为 2 或触发其他困难规则，退出本中等批次；不得通过修改分值、删核心模块或欠训练维持中等"
+}

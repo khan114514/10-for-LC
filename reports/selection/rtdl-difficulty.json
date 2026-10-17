@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-17 17:01:17",
+  "subject_id": "rtdl",
+  "pe_version": "difficulty-pe.md 2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "固定源码存在，任务适配类型 NATIVE_SMALL_BENCHMARK。所选依赖尚未在目标机构建；代码入口：https://github.com/yandex-research/rtdl-revisiting-models/blob/e3ed46cac38568785289d8fa16b8cfa585bde27e/bin/ft_transformer.py"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "官方 data.tar.gz 中 data/adult，保存数值/类别数组、词表、缺失值规则和原 train/val/test。；未知类别索引、quantile 变换和标签映射只由 train 决定；不得从全部样本重拟合。 数据/许可证/切分完整性仍需预检。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "单卡预检；Adult 规模小但 352 维三层模型仍需计时，不声称 30min 已通过。 没有目标 GPU 实测。"
+    },
+    "E4": {
+      "score": 1,
+      "basis": "code",
+      "note": "单阶段表格 Transformer；完整配置、验证追踪、checkpoint 保存和重载已有实现，需拆分独立 Verifier。"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "论文贡献已定位到 bin/ft_transformer.py, lib/data.py, output/adult/ft_transformer/tuned/0.toml；适配后需通过消融确认实际作用。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "infer",
+      "note": "三个独立候选：MultiheadAttention：特征组结构或稀疏交互机制。；残差更新：输入条件化的 token 门控与信息保留。；CLS/输出聚合：多层特征汇聚或样本自适应读出；输入编码固定，避免与数值嵌入题重合。 尚未证明可稳定改善健康 B。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "固定源码存在，任务适配类型 NATIVE_SMALL_BENCHMARK。所选依赖尚未在目标机构建；代码入口：https://github.com/yandex-research/rtdl-revisiting-models/blob/e3ed46cac38568785289d8fa16b8cfa585bde27e/bin/ft_transformer.py"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "官方 data.tar.gz 中 data/adult，保存数值/类别数组、词表、缺失值规则和原 train/val/test。；未知类别索引、quantile 变换和标签映射只由 train 决定；不得从全部样本重拟合。 数据/许可证/切分完整性仍需预检。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "单卡预检；Adult 规模小但 352 维三层模型仍需计时，不声称 30min 已通过。 没有目标 GPU 实测。"
+        },
+        "E4": {
+          "score": 1,
+          "basis": "code",
+          "note": "单阶段表格 Transformer；完整配置、验证追踪、checkpoint 保存和重载已有实现，需拆分独立 Verifier。"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "论文贡献已定位到 bin/ft_transformer.py, lib/data.py, output/adult/ft_transformer/tuned/0.toml；适配后需通过消融确认实际作用。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "infer",
+          "note": "三个独立候选：MultiheadAttention：特征组结构或稀疏交互机制。；残差更新：输入条件化的 token 门控与信息保留。；CLS/输出聚合：多层特征汇聚或样本自适应读出；输入编码固定，避免与数值嵌入题重合。 尚未证明可稳定改善健康 B。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        }
+      }
+    }
+  },
+  "final_level": "中等",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 2,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）",
+    "O4: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "scope": "Adult 二分类；完整 FT-Transformer；固定输入编码",
+  "reviewer_confidence": "中；O3 消融/失败支撑尚未完整核实，O4 的 30min 低方差实验尚未运行，默认 1 分不代表通过",
+  "reassessment_gate": "若 E3/E4/O2/O4 实测为 2 或触发其他困难规则，退出本中等批次；不得通过修改分值、删核心模块或欠训练维持中等"
+}

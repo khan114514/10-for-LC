@@ -1,34 +1,34 @@
-# 10 个 AutoResearch 新选题 · LC 交接
+# 10 个中等 AutoResearch 选题 · LC 交接
 
-已准备十道训练题的作者侧设计材料和修正版 `autoresearch-manager`。论文正式出处、官方源码固定提交及在线查重已核对；十题均为**困难预评**。这是选题与制作交接，尚未完成十题 GPU 复现、正式题包、Reference 改善或最终双 AI 验收。
+按最新要求重新选择十道**中等预评**训练题，采用小型公开数据、固定窗口和单阶段训练。十题在线查重全部通过，已准备作者题卡、数据入口、固定源码提交、完整 Baseline 约束、三个方法改动面及适配清单。当前为 PREPARATION_ONLY；GPU 复现、实际改善和正式双 AI 验收尚未完成。
 
-| 编号 | 题目卡 | 正式发表 | 冻结前拟定范围 |
+| 编号 | 题目卡 | 发表 | 本批范围 |
 |---|---|---|---|
-| 01 | [ConsisGAD](tasks/01-consisgad.md) | ICLR 2024 | Amazon 主任务；YelpChi 作为固定第二场景，分别冻结有限标签比例与切分 |
-| 02 | [TimeSiam](tasks/02-timesiam.md) | ICML 2024 | ETTh1 + ETTh2；PatchTST 编码器；预测长度 96/192/336/720，预训练后分别微调 |
-| 03 | [SimMTM](tasks/03-simmtm.md) | NeurIPS 2023 | 分类分支：SleepEEG 无标签预训练 → Epilepsy 小样本迁移；与 TF-C 使用不同方法接口 |
-| 04 | [TF-C](tasks/04-tfc.md) | NeurIPS 2022 | SleepEEG 无标签预训练 → Epilepsy 小样本分类；时间与频率双编码器 |
-| 05 | [GraphMAE2](tasks/05-graphmae2.md) | WWW 2023 | ogbn-arxiv mini-batch 表征学习；PubMed 仅用于 smoke，正式评分不替代 arxiv |
-| 06 | [BGRL](tasks/06-bgrl.md) | ICLR 2022 | PPI inductive multi-label 节点表征学习；不以 WikiCS 替代正式任务 |
-| 07 | [AFGRL](tasks/07-afgrl.md) | AAAI 2022 | WikiCS 节点聚类；固定同一图和无监督选择规则 |
-| 08 | [LightGCL](tasks/08-lightgcl.md) | ICLR 2023 | Gowalla 全物品召回；冻结从 train 划出的 Dev |
-| 09 | [DCCF](tasks/09-dccf.md) | SIGIR 2023 | Tmall 全物品推荐；从原 train 冻结独立 Dev |
-| 10 | [AdaGCL](tasks/10-adagcl.md) | KDD 2023 | LastFM 自适应图对比推荐；Yelp 仅作为后续固定扩展，不默认并入本题 |
+| 01 | [DANet](tasks/01-danet.md) | AAAI 2022 | California Housing 回归；完整 DANet-20；新增小数据适配 |
+| 02 | [NODE](tasks/02-node.md) | ICLR 2020 | A9A 二分类；可微 oblivious tree ensemble；单阶段 |
+| 03 | [MLP-PLR 数值嵌入](tasks/03-numemb.md) | NeurIPS 2022 | California Housing；固定 MLP 主干，仅开放数值嵌入 |
+| 04 | [FT-Transformer](tasks/04-rtdl.md) | NeurIPS 2021 | Adult 二分类；完整 FT-Transformer；固定输入编码 |
+| 05 | [ACM-GCN](tasks/05-acmgcn.md) | NeurIPS 2022 | Cora + Citeseer；小图监督节点分类；ACM-Pytorch 分支 |
+| 06 | [RevIN + SCINet](tasks/06-revins.md) | ICLR 2022 | ETTh1 多变量；输入 96，预测 48；固定 SCINet 主干 |
+| 07 | [Leddam](tasks/07-leddam.md) | ICML 2024 | ETTh2 多变量；输入 96，预测 96；完整分解与双注意力 |
+| 08 | [Focal Frequency Loss](tasks/08-ffl.md) | ICCV 2021 | CIFAR-10 32×32 图像重建；官方 MLP 自编码器 + FFL |
+| 09 | [EvenNet](tasks/09-evennet.md) | NeurIPS 2022 | Cora + Citeseer；clean graph 节点分类；偶数阶传播 |
+| 10 | [MICN](tasks/10-micn.md) | ICLR 2023 | ETTh1 多变量；输入 96，预测 96；完整多尺度卷积 |
 
-上一批 GAD-NR、SoftCLT、RecDCL 不在本批中。SimMTM 与 TF-C 虽共用一组迁移数据，但分别开放 masked manifold reconstruction 与时频双编码器一致性，不能制作成相同任务仅改标题。
+难度按动态双轴 PE 规则计算，十题均 E=4/8、O=4/8，置信度中。30 分钟低方差实验尚未实测；若实测升级为困难，换题或重新设计，不能靠欠训练、删除核心模块或调分维持中等。DANet、FFL 是显式小数据适配，NODE 需 CLI 装配；不称为论文全部实验的复现。
 
 ## 接手顺序
 
-1. 阅读 [共同制作与验收要求](requirements/common.md)、[选题证据与边界](reports/selection/README.md)。
-2. 阅读每题卡，核验数据获取与授权，填 [preflight 模板](templates/preflight.md)，再冻结合同；不能跳过健康 Baseline 直接做 Reference。
-3. 按 [运行交接说明](requirements/runbook.md) 使用本仓库修正的 manager；完整正式流程保留 10h 双轨、当前 SHA 复验、NOP、12h 稳定性与相同 ZIP 双 AI PASS。
-4. 本仓库含论文答案和作者方法方向，**整仓不能挂给 Actor，也不能作为提交题包或 QA 的被审 ZIP**。
+1. 阅读 [共同要求](requirements/common.md)和[选题证据](reports/selection/README.md)。
+2. 按题卡完成数据/依赖适配，填写 [真实预检](templates/preflight.md)，确认充分训练 B、成本、方差和方法空间后冻结合同。
+3. 使用 [修正版 manager](requirements/runbook.md)。中等选题仍保留健康 B/R、10h 双轨、当前 SHA 复验、NOP、12h 稳定性和同一 ZIP 双 AI PASS。
+4. 整个仓库含作者答案和审核材料，**不能挂给 Actor、放进题目镜像或作为正式提交 ZIP**。
 
-## 工具与验证
+## 工具与既有 skill 修复
 
-- `python3 tools/verify_handoff.py`：核验交接文件清单、十题完整性及未修改的 QA v0.3.4。
-- `python3 tools/fetch_source.py consisgad --dest /absolute/author-only/source`：获取指定提交的官方源码；只下载，不安装或执行，目标目录必须为空。其余 id 见 `manifests/tasks.json`。
-- [Skill 审查与修复](reports/skill-review/README.md)：优先修复恢复时重跑已成功 10h 轨迹的问题，也修复配置恢复、Python driver 路径和 reviewer 身份检查。
-- [验证记录](reports/validation/README.md)：管理器独立复测 34 项通过，另有真实 Docker 隔离测试；模拟模型输出不代表正式研究 QA。
+- `python3 tools/verify_handoff.py`：核验十题、评级、文件哈希和原版 QA v0.3.4。
+- `python3 tools/fetch_source.py revins --dest /absolute/author-only/source`：只获取固定源码，不安装/执行；目标目录必须为空。
+- [Skill 审查与修复](reports/skill-review/README.md)：保留前次已修复的单侧失败恢复、成功轨迹复用校验、输入阻塞恢复、driver 路径及 reviewer 身份检查；本轮未改 manager 或固定 QA。
+- [验证记录](reports/validation/README.md)：区分本轮材料检查与 2026-10-15 的 34 项 manager/Docker 验证。
 
-代码和数据授权分别核验；五个上游仓库未发现根目录许可证，已在题卡明确标注。此仓库只提供链接和自写设计材料，不转载这些上游实现。实际训练成本、资产完整性和算法改进尚须目标机实测；困难评级不能代替这一步。
+前一版困难十题保留在 [6370c57](https://github.com/khan114514/10-for-LC/tree/6370c579ee299e3346ff57d0997fc1a2ed7422bf)。本轮全部换题，也未重复更早的 GAD-NR、SoftCLT、RecDCL。EvenNet/MICN 的代码分发授权仍须确认；所有数据条款另行核验。

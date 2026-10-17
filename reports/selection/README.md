@@ -1,17 +1,17 @@
-# 选题证据与当前结论
+# 中等批次选题证据
 
-2026-10-15 从新候选集中选出十项，排除上一批三题。以正式题名和正式发表链接再次在线查重，十项全部 pass，无 suspect/duplicate。批次 `20261015_220319`，题库快照 5610 条、构建于 2026-10-09；阈值来自本次服务器响应，不作为未来固定值。逐题最相似记录 ID 和相似度见 [dedup.json](dedup.json)。ID `adagcl` 在请求中拼为 `adacgl`，论文题名及链接不变，映射明确保留。
+本批 2026-10-17 按用户最新要求重新选十道，替换当前主目录的困难批次；旧材料保留在 Git 提交 [6370c57](https://github.com/khan114514/10-for-LC/tree/6370c579ee299e3346ff57d0997fc1a2ed7422bf)。没有把旧题直接改名或改评级。
 
-会议分类脚本接受十篇的明确顶会字段，且人工核对正式论文页面/作者官方仓库。`venue.json` 是分类记录，不单独构成论文存在证据；正式链接与固定源码提交见 ../../manifests/sources.json。AdaGCL 是 KDD 2023，AFGRL 的正式题名是 Augmentation-Free Self-Supervised Learning on Graphs，已更正后重查。
+从 29 个候选中筛选，排除在线 duplicate/suspect、未证实顶会来源及本轮迁移负担较大的方向。[排除记录](screening.json)。最终十题以正式题名与链接在线复查，全部 pass；批次 `20261017_165105`，题库快照 5610 条，构建时间 2026-10-09T10:57:07。[原服务响应](dedup.json)保留最相似 ID、相似度和当次阈值。查重 pass 不等于平台正式收录，开工须重新查当期库。
 
-本次先获取当期动态规则，版本 2026-09-28、服务器标识 `a0674a53`；调用原规则附带的 venue_check、difficulty_pe、在线 check_dedup。该规则包是临时审核材料，未收入仓库。此目录仍属于作者侧审核物料，不能进入题包、镜像、Actor 日志或运行环境。
+使用当次拉取的动态规则（revision 2026-09-28，服务器标识 a0674a53），调用原版 difficulty_pe、venue_check 和在线 check_dedup。临时规则包不入仓库，用后删除。本目录只属于作者审核侧，不能进入题包、镜像、日志或 Actor 运行环境。
 
-十题均给出八维 PE 分数；环境复杂的多阶段任务由 E4=2 触发困难，AFGRL/LightGCL/DCCF 由代码成本信号支持 O4=2 的受控推断。所有难度是预评，O3 默认缺失，置信度中。尚未完整验证论文消融与失败证据、目标 GPU 成本、30 分钟单变量实验方差以及 Reference 的显著改善。不能把缺失、实现故障或人为放大预算当作难度；预检后复评不达标即换题。
+十题均按**所列小任务范围**计算 E=4、O=4，整题中等，置信度中。E1–E4/O1–O2 每项 1 分，逐题理由见各 JSON；O3（完整消融/失败证据）和 O4（30min 低方差实验）未核实，按规则缺失默认 1 分。相同总分只说明当前证据落在相同区间，并不说明实际成本相同。GPU 完整训练、峰值显存、方差和改善余量都没有实测。若实测严重项为 2 或触发其他困难规则，应从本中等批次移除，不降分凑档。
 
-代码读取固定提交的训练入口、模型、配置和数据加载路径，未执行上游代码、未解包 pickle/tensor、未声称数据已经下载。检查足以定位制作入口和风险，不等同十题端到端复现。数据镜像失效、条款不允许再分发、依赖无法构建或预算内无法充分训练时，应在开工前解决或换题。
+降低复杂度的依据是固定一个小数据/短窗口或两张小图、单阶段训练、明确方法接口，保留完整健康 B。NODE 需要 notebook→CLI；DANet/FFL 需要新数据适配，均在卡中显式标注。其余为官方原生小基准分支。不运行论文全部 HPO、迁移或攻击实验，不宣称复现整篇论文。FT-Transformer/MLP-PLR、ACM-GCN/EvenNet、三道预测题通过不同冻结/开放接口区分，不能制作成同一任务换标题。
 
-建议先验证 MIT/Apache 授权清晰的 ConsisGAD、TimeSiam、GraphMAE2、BGRL、TF-C；其余五项并行做作者侧授权与资产确认后再开工。不得因此缩减完整方法或正式验收要求。
+正式出处、固定源码提交和逐文件内容哈希见 [sources.json](../../manifests/sources.json)。venue.json 是字段分类，不单独证明发表。DANet/NeurIPS/Leddam 正式页面已核对；RevIN/MICN 的 OpenReview 受阻时，用固定提交的官方 README 接受说明交叉核对；NODE 另查 [ICLR 2020 官方论文列表](https://iclr.cc/virtual_2020/papers.html?filter=authors&search=Stanislav+Morozov)，FFL 获得 CVF 官方索引的会议/页码，并与 README 核对。Leddam 另有 [ICML PMLR 正式页面](https://proceedings.mlr.press/v235/yu24s.html)，在线查重保留原 OpenReview 链接以维持请求可追溯。
 
-额外对五个数据/簇入口做 HTTP HEAD，见 [asset-endpoints.json](asset-endpoints.json)：Figshare 返回 202，Tsinghua 返回 HTML 页面，这些响应不证明数据可完整下载。不能把 HTTP 成功码当成资产验证通过；目标机仍需获取真实文件并校验。
+[ETT 资产记录](ett-assets.json)含固定提交的 ETTh1/ETTh2 实际下载字节、SHA256、行数、列和时间范围，仅证明 CSV 内容可取，不代表切分/训练已验证。其他数据仅定位官方入口，未全量下载或解析。代码/数据许可证分开核验，EvenNet/MICN 未发现根目录许可证，本仓库不转载其实现。
 
-进一步读取 Figshare 版本 API，已取得 SleepEEG v1 与 Epilepsy v1/v2 的逐文件元数据（共 9 个版本化文件记录），包括直接下载链接、字节数、发布方 MD5 和 CC BY 4.0 标注，见 [figshare-assets.json](figshare-assets.json)。这解决聚合下载入口仅返回 202 的定位问题，仍不代表文件内容已验证。
+建议先做 RevIN、MLP-PLR、Leddam 的预检；DANet/FFL 先完成数据适配，NODE 先固化 CLI，EvenNet/MICN 先处理分发授权。正式全流程的证据门槛保持不变。

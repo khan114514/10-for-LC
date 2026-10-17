@@ -1,134 +1,139 @@
 {
-  "summary": {
-    "total": 10,
-    "duplicate": 0,
-    "suspect": 0,
-    "pass": 10,
-    "missing": 0
+ "summary": {
+  "total": 10,
+  "duplicate": 0,
+  "suspect": 0,
+  "pass": 10,
+  "missing": 0
+ },
+ "rows": [
+  {
+   "row": 1,
+   "id": "danet",
+   "title": "DANets: Deep Abstract Networks for Tabular Data Classification and Regression",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvwuT3BKf5Pc",
+   "top_score": 0.5672,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.5672 < 疑似阈值 0.8"
   },
-  "rows": [
-    {
-      "row": 1,
-      "id": "consisgad",
-      "title": "Consistency Training with Learnable Data Augmentation for Graph Anomaly Detection with Limited Supervision",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblgRIteylXSYCKW#recvwuT3BKP9CE",
-      "top_score": 0.5455,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.5455 < 疑似阈值 0.8"
-    },
-    {
-      "row": 2,
-      "id": "timesiam",
-      "title": "TimeSiam: A Pre-Training Framework for Siamese Time-Series Modeling",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "7686036074280587058",
-      "top_score": 0.595,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.5950 < 疑似阈值 0.8"
-    },
-    {
-      "row": 3,
-      "id": "simmtm",
-      "title": "SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblgRIteylXSYCKW#recvwuT3BKRDkr",
-      "top_score": 0.6061,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.6061 < 疑似阈值 0.8"
-    },
-    {
-      "row": 4,
-      "id": "tfc",
-      "title": "Self-Supervised Contrastive Pre-Training for Time Series via Time-Frequency Consistency",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblgRIteylXSYCKW#recvxlc1e0krRb",
-      "top_score": 0.585,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.5850 < 疑似阈值 0.8"
-    },
-    {
-      "row": 5,
-      "id": "graphmae2",
-      "title": "GraphMAE2: A Decoding-Enhanced Masked Self-Supervised Graph Learner",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "7686036071789268782",
-      "top_score": 0.5854,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.5854 < 疑似阈值 0.8"
-    },
-    {
-      "row": 6,
-      "id": "bgrl",
-      "title": "Large-Scale Representation Learning on Graphs via Bootstrapping",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblSbRvHEAJs5kez#recvwCFlwYFQtU",
-      "top_score": 0.6721,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.6721 < 疑似阈值 0.8"
-    },
-    {
-      "row": 7,
-      "id": "afgrl",
-      "title": "Augmentation-Free Self-Supervised Learning on Graphs",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblSbRvHEAJs5kez#recvwCFlwYdEEc",
-      "top_score": 0.6442,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.6442 < 疑似阈值 0.8"
-    },
-    {
-      "row": 8,
-      "id": "lightgcl",
-      "title": "LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblgRIteylXSYCKW#recvxeFDUabJ0j",
-      "top_score": 0.6892,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.6892 < 疑似阈值 0.8"
-    },
-    {
-      "row": 9,
-      "id": "dccf",
-      "title": "Disentangled Contrastive Collaborative Filtering",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblSbRvHEAJs5kez#recvwCFlwY02OK",
-      "top_score": 0.7339,
-      "matched_variant": "full~main",
-      "note": "最高相似度 0.7339 < 疑似阈值 0.8"
-    },
-    {
-      "row": 10,
-      "id": "adagcl",
-      "title": "Adaptive Graph Contrastive Learning for Recommendation",
-      "dedup": "pass",
-      "dedup_cn": "通过",
-      "top_match_id": "tblgRIteylXSYCKW#recvxeFDUabJ0j",
-      "top_score": 0.7402,
-      "matched_variant": "full~full",
-      "note": "最高相似度 0.7402 < 疑似阈值 0.8",
-      "submitted_id": "adacgl"
-    }
-  ],
-  "batch_id": "20261015_220319",
-  "thresholds": {
-    "duplicate": 0.9,
-    "suspect": 0.8,
-    "main_only_full_min": 0.85
+  {
+   "row": 2,
+   "id": "node",
+   "title": "Neural Oblivious Decision Ensembles for Deep Learning on Tabular Data",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvwuT3BKm6Gg",
+   "top_score": 0.6214,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.6214 < 疑似阈值 0.8"
   },
-  "pool": {
-    "total": 5610,
-    "built_at": "2026-10-09T10:57:07"
+  {
+   "row": 3,
+   "id": "numemb",
+   "title": "On Embeddings for Numerical Features in Tabular Deep Learning",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvwuT3BKpefG",
+   "top_score": 0.5405,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.5405 < 疑似阈值 0.8"
   },
-  "checked_at": "2026-10-15 22:03:19",
-  "raw_response_sha256": "533040a6d3eba98991fa36b8acae83a8e71cdb13fb7a1470b5ad88ebeec916d3"
+  {
+   "row": 4,
+   "id": "rtdl",
+   "title": "Revisiting Deep Learning Models for Tabular Data",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvwuT3BKoOhm",
+   "top_score": 0.747,
+   "matched_variant": "full~main",
+   "note": "最高相似度 0.7470 < 疑似阈值 0.8"
+  },
+  {
+   "row": 5,
+   "id": "acmgcn",
+   "title": "Revisiting Heterophily For Graph Neural Networks",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvxa87znL6Ji",
+   "top_score": 0.6818,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.6818 < 疑似阈值 0.8"
+  },
+  {
+   "row": 6,
+   "id": "revins",
+   "title": "Reversible Instance Normalization for Accurate Time-Series Forecasting against Distribution Shift",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblSbRvHEAJs5kez#recvwCFlwYsgfb",
+   "top_score": 0.6111,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.6111 < 疑似阈值 0.8"
+  },
+  {
+   "row": 7,
+   "id": "leddam",
+   "title": "Revitalizing Multivariate Time Series Forecasting: Learnable Decomposition with Inter-Series Dependencies and Intra-Series Variations Modeling",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvwuSYn9vWQa",
+   "top_score": 0.7527,
+   "matched_variant": "main~main",
+   "note": "最高相似度 0.7527 < 疑似阈值 0.8"
+  },
+  {
+   "row": 8,
+   "id": "ffl",
+   "title": "Focal Frequency Loss for Image Reconstruction and Synthesis",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblgRIteylXSYCKW#recvwuSYn9sFZF",
+   "top_score": 0.5818,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.5818 < 疑似阈值 0.8"
+  },
+  {
+   "row": 9,
+   "id": "evennet",
+   "title": "EvenNet: Ignoring Odd-Hop Neighbors Improves Robustness of Graph Neural Networks",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblSbRvHEAJs5kez#recvwCFlwYTwvy",
+   "top_score": 0.6281,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.6281 < 疑似阈值 0.8"
+  },
+  {
+   "row": 10,
+   "id": "micn",
+   "title": "MICN: Multi-scale Local and Global Context Modeling for Long-term Series Forecasting",
+   "dedup": "pass",
+   "dedup_cn": "通过",
+   "top_match_id": "tblSbRvHEAJs5kez#recvxeQ8lk0od0",
+   "top_score": 0.6405,
+   "matched_variant": "full~full",
+   "note": "最高相似度 0.6405 < 疑似阈值 0.8"
+  }
+ ],
+ "csv": "行,题目ID,标题,结论(EN),结论(CN),最相似ID,相似度,匹配方式,说明\r\n1,danet,DANets: Deep Abstract Networks for Tabular Data Classification and Regression,pass,通过,tblgRIteylXSYCKW#recvwuT3BKf5Pc,0.5672,full~full,最高相似度 0.5672 < 疑似阈值 0.8\r\n2,node,Neural Oblivious Decision Ensembles for Deep Learning on Tabular Data,pass,通过,tblgRIteylXSYCKW#recvwuT3BKm6Gg,0.6214,full~full,最高相似度 0.6214 < 疑似阈值 0.8\r\n3,numemb,On Embeddings for Numerical Features in Tabular Deep Learning,pass,通过,tblgRIteylXSYCKW#recvwuT3BKpefG,0.5405,full~full,最高相似度 0.5405 < 疑似阈值 0.8\r\n4,rtdl,Revisiting Deep Learning Models for Tabular Data,pass,通过,tblgRIteylXSYCKW#recvwuT3BKoOhm,0.747,full~main,最高相似度 0.7470 < 疑似阈值 0.8\r\n5,acmgcn,Revisiting Heterophily For Graph Neural Networks,pass,通过,tblgRIteylXSYCKW#recvxa87znL6Ji,0.6818,full~full,最高相似度 0.6818 < 疑似阈值 0.8\r\n6,revins,Reversible Instance Normalization for Accurate Time-Series Forecasting against Distribution Shift,pass,通过,tblSbRvHEAJs5kez#recvwCFlwYsgfb,0.6111,full~full,最高相似度 0.6111 < 疑似阈值 0.8\r\n7,leddam,Revitalizing Multivariate Time Series Forecasting: Learnable Decomposition with Inter-Series Dependencies and Intra-Series Variations Modeling,pass,通过,tblgRIteylXSYCKW#recvwuSYn9vWQa,0.7527,main~main,最高相似度 0.7527 < 疑似阈值 0.8\r\n8,ffl,Focal Frequency Loss for Image Reconstruction and Synthesis,pass,通过,tblgRIteylXSYCKW#recvwuSYn9sFZF,0.5818,full~full,最高相似度 0.5818 < 疑似阈值 0.8\r\n9,evennet,EvenNet: Ignoring Odd-Hop Neighbors Improves Robustness of Graph Neural Networks,pass,通过,tblSbRvHEAJs5kez#recvwCFlwYTwvy,0.6281,full~full,最高相似度 0.6281 < 疑似阈值 0.8\r\n10,micn,MICN: Multi-scale Local and Global Context Modeling for Long-term Series Forecasting,pass,通过,tblSbRvHEAJs5kez#recvxeQ8lk0od0,0.6405,full~full,最高相似度 0.6405 < 疑似阈值 0.8\r\n",
+ "truncated": false,
+ "batch_id": "20261017_165105",
+ "thresholds": {
+  "duplicate": 0.9,
+  "suspect": 0.8,
+  "main_only_full_min": 0.85
+ },
+ "stats": {
+  "single": 6732,
+  "batch_rows": 22227,
+  "batch_jobs": 1211,
+  "last_check": "2026-10-17 16:51:05"
+ },
+ "pool": {
+  "total": 5610,
+  "built_at": "2026-10-09T10:57:07"
+ }
 }

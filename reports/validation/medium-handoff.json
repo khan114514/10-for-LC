@@ -1,0 +1,34 @@
+{
+  "checked_on": "2026-10-17",
+  "status": "PASS",
+  "scope": "author handoff preparation only; no GPU research acceptance",
+  "static_json_files": 23,
+  "static_python_files": 32,
+  "authored_relative_links": "PASS",
+  "manager_and_fixed_qa_changed": false,
+  "qa_version": "0.3.4",
+  "qa_files": 34,
+  "verifier_cases": [
+    {
+      "case": "current medium batch",
+      "result": "PASS",
+      "observed": "PASS"
+    },
+    {
+      "case": "reject hard rating even with matching hashes",
+      "result": "PASS"
+    },
+    {
+      "case": "reject wrong subject rating",
+      "result": "PASS"
+    },
+    {
+      "case": "reject stale hard target",
+      "result": "PASS"
+    }
+  ],
+  "training": "NOT_RUN",
+  "reference_gain": "NOT_VERIFIED",
+  "difficulty": "PROVISIONAL_MEDIUM",
+  "dedup_batch": "20261017_165105"
+}

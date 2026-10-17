@@ -1,522 +1,584 @@
 {
-  "schema_version": 1,
-  "prepared_on": "2026-10-15",
+  "schema_version": 2,
+  "prepared_on": "2026-10-17",
   "status": "PREPARATION_ONLY",
+  "target_difficulty": "中等",
+  "prior_hard_batch_commit": "6370c579ee299e3346ff57d0997fc1a2ed7422bf",
   "tasks": [
     {
-      "id": "consisgad",
-      "title": "Consistency Training with Learnable Data Augmentation for Graph Anomaly Detection with Limited Supervision",
-      "venue": "ICLR",
-      "link": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/80eecea10dc05e23db2f90c9d4567153-Abstract-Conference.html",
-      "repo": "Xtra-Computing/ConsisGAD",
-      "name": "ConsisGAD",
-      "year": 2024,
-      "scope": "Amazon 主任务；YelpChi 作为固定第二场景，分别冻结有限标签比例与切分",
-      "metric": "ROC-AUC 为主、PR-AUC 和少数类召回为质量门；先冻结阈值选择规则",
-      "baseline": "保留完整关系图骨干、可学习增强器和一致性训练。Amazon 原配置 100 epochs、每轮 128 次训练迭代；训练是否充分由曲线和真实 steps 核验。",
+      "id": "danet",
+      "title": "DANets: Deep Abstract Networks for Tabular Data Classification and Regression",
+      "venue": "AAAI",
+      "repo": "WhatAShot/DANet",
+      "link": "https://ojs.aaai.org/index.php/AAAI/article/view/20309",
+      "name": "DANet",
+      "year": 2022,
+      "scope": "California Housing 回归；完整 DANet-20；新增小数据适配",
+      "adaptation": "NEW_DATASET_ADAPTER_REQUIRED",
+      "metric": "原目标单位 RMSE，越低越好；MAE 为质量门。",
+      "baseline": "保留 LearnableLocality、AbstractLayer、原始特征 shortcut 和完整 DANet-20。官方默认 max_epochs=4000、patience=1500；不能照搬巨大 batch 到小数据后少更新。先用公开 Dev 确认充分训练与 ghost batch 行为，再冻结 B/R 共用预算。",
       "assets": [
-        "DGL 自带 FraudAmazonDataset/FraudYelpDataset；官方来源见固定版本 README。预取数据后保存原包、处理结果和切分 SHA256；不得把私有标签交给 Actor。"
+        "California Housing：20,640 样本、8 个数值特征；使用 sklearn 官方 fetch_california_housing 数据定义，原始文件与处理数组分别计算哈希。",
+        "这是论文方法在新小数据上的自命题，不是论文七数据集原表复现。拟固定 60/20/20 随机切分，保存行 ID；只在 train 拟合分位数变换与目标标准化。"
       ],
-      "upstream_command": "python main.py --config 'config/amazon.yml' --runs 5",
+      "asset_urls": [
+        "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html"
+      ],
       "files": [
         "main.py",
-        "models.py",
-        "config/amazon.yml",
-        "config/yelp.yml",
-        "requirements.txt",
-        "modules/data_loader.py"
+        "config/default.py",
+        "model/DANet.py",
+        "data/dataset.py",
+        "abstract_model.py"
       ],
+      "entry": "main.py 的 -c/--config、-g/--gpu_id；尚无 California 配置或 loader，先编写共享适配器，不提供可直接跑通的猜测命令。",
       "methods": [
-        "SoftAttentionDrop：特征/关系条件化增强分布，改变噪声生成机制；保留完整信息预算。",
-        "UDA_train_epoch：置信度校准与一致性样本选择，修改目标和选择策略。",
-        "simpleGNN_MR：异配关系下的邻居聚合或消息门控，必须是模块实现。"
+        "LearnableLocality：设计输入条件化的稀疏特征分组，而非只调组数 k。",
+        "AbstractLayer：改组内特征组合与门控函数，保持接口维度和预算可比。",
+        "BasicBlock：改原始特征与深层表示的残差融合机制。"
       ],
       "repairs": [
-        "原训练同时访问验证与测试 loader；改成训练仅可见独立 Dev，最终测试由 Verifier 执行。",
-        "把配置中的 GPU 序号改成容器内设备映射；两边相同。多次运行必须重新初始化模型、优化器、增强器和 RNG。",
-        "记录标签比例、标签采样 seed、图边可见范围；无标签节点特征可见性须预先约定。"
+        "添加 California loader 和回归配置；当前通用默认配置没有回归分支所需全部字段，必须逐项补齐。",
+        "完整保存变换器、目标均值/标准差、模型结构和选中权重；新进程回归评分恢复原单位。",
+        "小数据更容易过拟合；先审健康 B 的曲线和改善余量，不能通过删除层或压低训练轮次制造增益。"
       ],
-      "difficulty_reason": "两个可训练部分与一致性/监督目标共同更新；稀标签关系图的采样、验证选优和独立权重重载必须一致，完整闭环有多处状态耦合。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "36811c5bc79be49c9740f25a1f260496bb4736af",
-      "source_url": "https://github.com/Xtra-Computing/ConsisGAD",
-      "license_status": "MIT（代码）；数据使用条款另外核对",
+      "e4": "单阶段监督回归，main.py 已有验证选优与预测调用；新增 loader/配置和独立重载尚未完成。",
+      "resource": "单卡预检；DANet-20 的总收敛时间待测，旧配置长 patience 是优先风险。",
+      "commit": "b007c57121ec9082f6ef19ec7465d9df70767c26",
+      "source_url": "https://github.com/WhatAShot/DANet",
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.5672,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/danet-difficulty.json",
+      "card": "tasks/01-danet.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false,
       "license_files": [
         "LICENSE"
       ],
-      "status": "PREPARATION_ONLY",
-      "venue_pass": true,
-      "dedup": "pass",
-      "dedup_score": 0.5455,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/consisgad-difficulty.json",
-      "card": "tasks/01-consisgad.md",
-      "asset_download_verified": false,
-      "gpu_reproduction_verified": false
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
     },
     {
-      "id": "timesiam",
-      "title": "TimeSiam: A Pre-Training Framework for Siamese Time-Series Modeling",
-      "venue": "ICML",
-      "link": "https://proceedings.mlr.press/v235/dong24e.html",
-      "repo": "thuml/TimeSiam",
-      "name": "TimeSiam",
-      "year": 2024,
-      "scope": "ETTh1 + ETTh2；PatchTST 编码器；预测长度 96/192/336/720，预训练后分别微调",
-      "metric": "八个固定 dataset×horizon case 的 MSE 均值（越低越好）；各 case MAE 为质量门",
-      "baseline": "保留时间配对、lineage embedding 和 Siamese reconstruction 的完整 TimeSiam；示例预训练 50 epochs 后四个 horizon 微调。每个训练 seed 从初始化预训练，再派生各 horizon。",
-      "assets": [
-        "官方 README 的 Google Drive/Tsinghua 数据镜像；目标文件 dataset/ETT-small/ETTh1.csv、ETTh2.csv。也可从原始 ETT 作者仓获取，但必须验证内容一致并冻结哈希。",
-        "无需现成论文 checkpoint；正式 B/R 从头预训练，公开下载权重只可作独立 smoke 对照。"
-      ],
-      "upstream_command": "bash scripts/TimeSiam/ETT_script/PatchTST_ETTh1.sh",
-      "files": [
-        "exp/pretrain.py",
-        "models/PatchTST.py",
-        "data_provider/data_loader.py",
-        "scripts/TimeSiam/ETT_script/PatchTST_ETTh1.sh",
-        "scripts/TimeSiam/ETT_script/PatchTST_ETTh2.sh",
-        "requirements.txt"
-      ],
-      "methods": [
-        "时间配对采样：依赖跨度、周期性或难度的采样机制。",
-        "Lineage 表征：离散/连续时间距离编码与融合模块。",
-        "掩码重建：跨分支信息融合或预测目标形式，不只改 mask 比例。"
-      ],
-      "repairs": [
-        "严格按时间切分，标准化只拟合训练段；窗口和目标不能穿越切分边界。",
-        "预训练只读训练段；逐项记录 checkpoint→微调→评测血缘，禁止共享跨 seed 的预训练权重充当独立训练。",
-        "脚本含多个命令，必须收集每个子命令退出码并实现失败即停，不能以最后一个子命令成功掩盖先前失败。"
-      ],
-      "difficulty_reason": "预训练权重迁移到多个微调模型，再汇总八个未来时间预测 case；时间边界和各模型 checkpoint 血缘共同决定指标有效性。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "c06f05df6197af0d780fae16b272ee4bd7d54ed9",
-      "source_url": "https://github.com/thuml/TimeSiam",
-      "license_status": "MIT（代码）；数据使用条款另外核对",
-      "license_files": [
-        "LICENSE"
-      ],
-      "status": "PREPARATION_ONLY",
-      "venue_pass": true,
-      "dedup": "pass",
-      "dedup_score": 0.595,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/timesiam-difficulty.json",
-      "card": "tasks/02-timesiam.md",
-      "asset_download_verified": false,
-      "gpu_reproduction_verified": false
-    },
-    {
-      "id": "simmtm",
-      "title": "SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling",
-      "venue": "NeurIPS",
-      "link": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/5f9bfdfe3685e4ccdbc0e7fb29cccf2a-Abstract-Conference.html",
-      "repo": "thuml/SimMTM",
-      "name": "SimMTM",
-      "year": 2023,
-      "scope": "分类分支：SleepEEG 无标签预训练 → Epilepsy 小样本迁移；与 TF-C 使用不同方法接口",
-      "metric": "Macro-F1 为主，balanced accuracy/各类召回为质量门；类别顺序与阈值冻结",
-      "baseline": "保留 masked-series 相似度学习、邻域加权聚合和逐点重建。源码默认预训练 10 epochs、微调默认 300（run.sh 有 100 的覆盖）；预检明确采用哪套完整配置并冻结，不随 B/R 结果改变。",
-      "assets": [
-        "源码 download_datasets.sh：SleepEEG figshare article 19930178 v1；Epilepsy article 19930199 v1。与 TF-C 的 v2 不应静默混用。",
-        "真实目录是 SimMTM_Classification，README 的 SimMTM_Class 名称过时；数据需放在 dataloader 实际解析路径，逐项记录 tensor shape/标签映射/划分哈希。"
-      ],
-      "upstream_command": "cd SimMTM_Classification\npython code/main.py --training_mode pre_train --pretrain_dataset SleepEEG --target_dataset Epilepsy",
-      "files": [
-        "SimMTM_Classification/code/main.py",
-        "SimMTM_Classification/code/trainer.py",
-        "SimMTM_Classification/code/model.py",
-        "SimMTM_Classification/code/dataloader.py",
-        "SimMTM_Classification/download_datasets.sh",
-        "SimMTM_Classification/run.sh"
-      ],
-      "methods": [
-        "掩码生成器：片段/频率结构感知的重建扰动。",
-        "邻域聚合：样本相似度校准、错误邻居抑制或稀疏权重机制。",
-        "重建目标：多尺度一致性或重建与迁移特征协同，不只改变损失系数。"
-      ],
-      "repairs": [
-        "trainer 在预训练中周期性启动下游微调并报告测试最优；改成公开 Dev 选择，私有测试只由独立评测读取。",
-        "检查 ckp_best 保存对象：正式输出必须包含实际选中微调 encoder 和 classifier，不能只保存原预训练模型；新增独立进程重载评分。",
-        "原多阶段嵌套成本不能按一个 epoch 估计。预训练与微调均须记入资源预算，不能用同一预训练权重冒充多次独立训练。",
-        "公开 EEG 数据的受试者/片段来源需要检查；无法重建 subject split 时只声明基准切分表现，不声称跨受试者或临床泛化。"
-      ],
-      "difficulty_reason": "源码预训练中嵌套重新微调和选优，且预训练与微调模型的保存对象不同；需完整贯通两个训练阶段、Dev 选择和正确模型重载。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "169513bef74fb676e48d98a0e30f8823793f691c",
-      "source_url": "https://github.com/thuml/SimMTM",
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": [],
-      "status": "PREPARATION_ONLY",
-      "venue_pass": true,
-      "dedup": "pass",
-      "dedup_score": 0.6061,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/simmtm-difficulty.json",
-      "card": "tasks/03-simmtm.md",
-      "asset_download_verified": false,
-      "gpu_reproduction_verified": false
-    },
-    {
-      "id": "tfc",
-      "title": "Self-Supervised Contrastive Pre-Training for Time Series via Time-Frequency Consistency",
-      "venue": "NeurIPS",
-      "link": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/194b8dac525581c346e30a2cebe9a369-Abstract-Conference.html",
-      "repo": "mims-harvard/TFC-pretraining",
-      "name": "TF-C",
-      "year": 2022,
-      "scope": "SleepEEG 无标签预训练 → Epilepsy 小样本分类；时间与频率双编码器",
-      "metric": "Macro-F1 为主，balanced accuracy/各类召回为质量门；类别和小样本预算冻结",
-      "baseline": "保留时间、频率双编码器、各自增强和跨域一致性目标；下游分类器独立训练。完整训练轮数由官方配置与真实收敛预检共同确认，两边共用。",
-      "assets": [
-        "download_datasets.sh：SleepEEG https://figshare.com/ndownloader/articles/19930178/versions/1；Epilepsy https://figshare.com/ndownloader/articles/19930199/versions/2。",
-        "下载清单覆盖多个数据集；此题只准备上述两项，不运行无关下载。SleepEEG 规模约 37 万样本，成本需实际计时。"
-      ],
-      "upstream_command": "cd code/TFC\npython main.py --training_mode pre_train --pretrain_dataset SleepEEG --target_dataset Epilepsy\npython main.py --training_mode fine_tune_test --pretrain_dataset SleepEEG --target_dataset Epilepsy",
-      "files": [
-        "code/TFC/main.py",
-        "code/TFC/trainer.py",
-        "code/TFC/model.py",
-        "code/TFC/dataloader.py",
-        "download_datasets.sh",
-        "code/config_files/SleepEEG_Configs.py",
-        "code/config_files/Epilepsy_Configs.py"
-      ],
-      "methods": [
-        "频率增强：保相位/频段结构的扰动策略。",
-        "时频一致性：跨域对齐目标、正负样本选择和坍缩防护。",
-        "双分支融合：按样本或频带条件化融合，保留训练和推理接口。"
-      ],
-      "repairs": [
-        "trainer 的 valid_dl 实际用于优化，不能按变量名把它当 Dev；重建明确的 target-train/Dev/private-test 语义。",
-        "源码每轮测试并报告最佳 F1/KNN；全部选择改为 Dev，不能在私有集挑 epoch、分类头或 KNN 设置。",
-        "固定保存两套 encoder、projection、classifier 及预处理参数，独立重载；官方预训练权重不替代正式独立训练。",
-        "处理后数据不保证可追溯受试者划分；验收明确为固定公共 benchmark，不能宣称临床效果。"
-      ],
-      "difficulty_reason": "两个编码器的预训练、迁移分类头和多种评估路径耦合；源码 loader 角色与命名不一致，必须实现可信划分、权重迁移和独立重载闭环。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "96675826e9ef234a9b01cc63d484c66cb0441bc0",
-      "source_url": "https://github.com/mims-harvard/TFC-pretraining",
-      "license_status": "MIT（代码）；数据使用条款另外核对",
-      "license_files": [
-        "LICENSE",
-        "code/baselines/SimCLR/LICENSE"
-      ],
-      "status": "PREPARATION_ONLY",
-      "venue_pass": true,
-      "dedup": "pass",
-      "dedup_score": 0.585,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/tfc-difficulty.json",
-      "card": "tasks/04-tfc.md",
-      "asset_download_verified": false,
-      "gpu_reproduction_verified": false
-    },
-    {
-      "id": "graphmae2",
-      "title": "GraphMAE2: A Decoding-Enhanced Masked Self-Supervised Graph Learner",
-      "venue": "WWW",
-      "link": "https://doi.org/10.1145/3543507.3583379",
-      "repo": "THUDM/GraphMAE2",
-      "name": "GraphMAE2",
-      "year": 2023,
-      "scope": "ogbn-arxiv mini-batch 表征学习；PubMed 仅用于 smoke，正式评分不替代 arxiv",
-      "metric": "官方 ogbn-arxiv 节点分类 accuracy；固定线性探针容量、预算和 temporal split",
-      "baseline": "完整 GraphMAE2：多次 remasking、latent target teacher、EMA 与下游线性探针。arxiv 配置预训练 60 epochs、探针 1000 epochs；以充分训练证据审核，不删 teacher 或降低探针预算。",
-      "assets": [
-        "OGB 原生下载 ogbn-arxiv；固定版本与原始 split。",
-        "local cluster 需要 LocalGraphClustering；作者可下载预生成簇 https://cloud.tsinghua.edu.cn/d/64f859f389ca43eda472/ 或从同一图重建，固定构建程序、seed 和簇哈希。"
-      ],
-      "upstream_command": "bash run_minibatch.sh ogbn-arxiv 0",
-      "files": [
-        "main_large.py",
-        "models/edcoder.py",
-        "models/finetune.py",
-        "configs/ogbn-arxiv.yaml",
-        "datasets/localclustering.py",
-        "datasets/lc_sampler.py",
-        "run_minibatch.sh",
-        "requirements.txt"
-      ],
-      "methods": [
-        "remasking 调度与重建目标的结构化替换。",
-        "teacher 目标更新和置信度选择，保持稳定性约束。",
-        "局部簇采样/上下文覆盖机制，保持数据和总训练预算。"
-      ],
-      "repairs": [
-        "把簇预处理的版本与图哈希绑定；不得在 Dev/test 标签上构造采样权重。",
-        "保留官方时间切分；允许的 transductive 公开特征/边须明确，私有标签隔离。",
-        "线性探针与表征权重分别保存，重新评分从冻结权重重载；评测协议变化两边同步。"
-      ],
-      "difficulty_reason": "簇预处理→双目标掩码训练→表征导出→固定线性探针，多级资产与 EMA 状态需绑定；mini-batch 与完整图评测有独立实现边界。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24–48GB 作为预检申请范围；簇缓存和 CPU 内存另行测量，不承诺最低配置",
-      "commit": "bc473e8b750d6e90b7cba1c6bb20d858f617d90c",
-      "source_url": "https://github.com/THUDM/GraphMAE2",
-      "license_status": "MIT（代码）；数据使用条款另外核对",
-      "license_files": [
-        "LICENSE"
-      ],
-      "status": "PREPARATION_ONLY",
-      "venue_pass": true,
-      "dedup": "pass",
-      "dedup_score": 0.5854,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/graphmae2-difficulty.json",
-      "card": "tasks/05-graphmae2.md",
-      "asset_download_verified": false,
-      "gpu_reproduction_verified": false
-    },
-    {
-      "id": "bgrl",
-      "title": "Large-Scale Representation Learning on Graphs via Bootstrapping",
+      "id": "node",
+      "title": "Neural Oblivious Decision Ensembles for Deep Learning on Tabular Data",
       "venue": "ICLR",
-      "link": "https://openreview.net/forum?id=0UXT6PpRpW",
-      "repo": "nerdslab/bgrl",
-      "name": "BGRL",
-      "year": 2022,
-      "scope": "PPI inductive multi-label 节点表征学习；不以 WikiCS 替代正式任务",
-      "metric": "micro-F1，固定独立线性评估器；逐图结果与少数标签覆盖作为质量检查",
-      "baseline": "完整 online encoder、predictor、EMA target 和双图增强。PPI 配置 10,000 steps、batch=22、每 1,000 steps 原评估一次；最终训练充分性以曲线和实际步数审查。",
+      "repo": "Qwicen/node",
+      "link": "https://openreview.net/forum?id=r1eiu2VtwH",
+      "name": "NODE",
+      "year": 2020,
+      "scope": "A9A 二分类；可微 oblivious tree ensemble；单阶段",
+      "adaptation": "CLI_ADAPTER_REQUIRED",
+      "metric": "ROC-AUC，越高越好；log-loss 与分类准确率为质量门。",
+      "baseline": "保留 ODST 软特征选择、阈值/温度、叶响应和 DenseBlock。以官方论文/配置的健康 A9A 模型为起点；禁止将其退化为单棵小树。原仓库训练示例主要是 notebook，先提取可复现 CLI，冻结树数、深度、层数和早停。",
       "assets": [
-        "torch_geometric.datasets.PPI 原生公开数据，缓存原包、图边/特征/标签和官方 train/val/test 图划分。",
-        "上游 PyTorch 1.9.1 / PyG 扩展组合较旧；容器需锁兼容 wheel，而非运行时临时安装。"
+        "A9A 官方 LIBSVM 数据：训练 32,561、测试 16,281、123 维；lib/data.py 已有 fetch_A9A。",
+        "保留测试集，train 内冻结分层 Dev 与行 ID。原 Dropbox split 不可用时必须显式形成新合同，不能默默更换切分。"
       ],
-      "upstream_command": "python3 train_ppi.py --flagfile=config/ppi.cfg\npython3 linear_eval_ppi.py --flagfile=config-eval/ppi.cfg",
+      "asset_urls": [
+        "https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#a9a",
+        "https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary/a9a",
+        "https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary/a9a.t"
+      ],
       "files": [
-        "train_ppi.py",
-        "linear_eval_ppi.py",
-        "config/ppi.cfg",
-        "config-eval/ppi.cfg",
-        "bgrl/bgrl.py"
+        "lib/data.py",
+        "lib/arch.py",
+        "lib/odst.py",
+        "lib/trainer.py"
       ],
+      "entry": "lib.Dataset(\"A9A\", ...) + lib.DenseBlock + lib.Trainer；需要把 notebook 训练循环提取为 CLI，尚未提供已跑通的 A9A driver。",
       "methods": [
-        "拓扑/特征联合视图生成，避免损毁稀疏标签对应结构。",
-        "predictor 与 online/target 表征匹配目标。",
-        "EMA 更新或正样本一致性机制，改动必须影响方法而非单个系数。"
+        "ODST：结构化特征选择分布，替换软选择映射，而非只调温度。",
+        "软分箱：单调门或校准阈值机制，保持可微树结构。",
+        "DenseBlock：跨层树输出与原始特征的选择/聚合机制。"
       ],
       "repairs": [
-        "源码预训练把 train 和 val 的无标签图合并；正式协议明确允许范围，不能包含 private-test 图。若 Dev 图要求隔离，两边共同移出。",
-        "定期线性评估暴露 test 指标，改成 Dev；测试由隔离评测器读取。",
-        "PPI 保存文件名沿用 bgrl-wikics.pt，统一修正命名并核验实际 payload、编码器结构和线性评估器一致。"
+        "旧 numpy 的 np.int、entmax/qhoptim 等依赖先适配，B/R 共享；依赖修复不算方法增益。",
+        "数据感知初始化仅使用 train。禁止预初始化时混入 Dev/private。",
+        "Trainer 保存的是自身 state_dict（含 model 命名空间）；CLI 重载必须验证同一对象和输出，checkpoint 平均策略事先冻结。"
       ],
-      "difficulty_reason": "跨多个独立图训练 online/target 编码器，并用单独多标签评估器得到最终指标；预训练图集合与评估图集合、两类 checkpoint 均需一致绑定。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "60f9f19ad0598f9163ad70ebbde3e7297760901e",
-      "source_url": "https://github.com/nerdslab/bgrl",
-      "license_status": "Apache-2.0（代码）；数据使用条款另外核对",
+      "e4": "Dataset/ODST/Trainer 的单阶段组件齐全，CLI、选优与独立重载需装配；没有预训练到下游的第二训练阶段。",
+      "resource": "单卡预检；作者提示实现显存效率有限，须记录树张量峰值，不能直接承诺低显存。",
+      "commit": "3bae6a8a63f0205683270b6d566d9cfa659403e4",
+      "source_url": "https://github.com/Qwicen/node",
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6214,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/node-difficulty.json",
+      "card": "tasks/02-node.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false,
       "license_files": [
         "LICENSE.md"
       ],
-      "status": "PREPARATION_ONLY",
-      "venue_pass": true,
-      "dedup": "pass",
-      "dedup_score": 0.6721,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/bgrl-difficulty.json",
-      "card": "tasks/06-bgrl.md",
-      "asset_download_verified": false,
-      "gpu_reproduction_verified": false
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
     },
     {
-      "id": "afgrl",
-      "title": "Augmentation-Free Self-Supervised Learning on Graphs",
-      "venue": "AAAI",
-      "link": "https://ojs.aaai.org/index.php/AAAI/article/view/20700",
-      "repo": "Namkyeong/AFGRL",
-      "name": "AFGRL",
+      "id": "numemb",
+      "title": "On Embeddings for Numerical Features in Tabular Deep Learning",
+      "venue": "NeurIPS",
+      "repo": "yandex-research/rtdl-num-embeddings",
+      "link": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/9e9f0ffc3d836836ca96cbf8fe14b105-Abstract-Conference.html",
+      "name": "MLP-PLR 数值嵌入",
       "year": 2022,
-      "scope": "WikiCS 节点聚类；固定同一图和无监督选择规则",
-      "metric": "固定评估种子集合上的 NMI 均值；ARI 与聚类退化率为质量门",
-      "baseline": "保留局部邻接一致性、全局聚类正例和 EMA teacher。使用原节点聚类脚本参数、完整训练；不能把聚类正例退化为随机采样作为正式 B。",
+      "scope": "California Housing；固定 MLP 主干，仅开放数值嵌入",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "原目标单位 RMSE，越低越好；MAE 与有限值检查为质量门。",
+      "baseline": "使用完整 MLP-PLR，不用裸 MLP 作评分锚点。官方 California 配置为 positional→linear→relu、76 维嵌入、MLP [916]、batch 256、patience 16。n_epochs=inf 表示依赖早停，需在真实收敛预检后增加公平资源上限，不能任意截断。",
       "assets": [
-        "PyG WikiCS 公共资产；分别锁图预处理与聚类评估 seed。",
-        "依赖 PyTorch/PyG/FAISS；上游旧版本需预先在 Linux GPU 环境编译验证。"
+        "官方 README 的 data.tar 含 data/california，保留官方 train/val/test 与目标缩放信息。",
+        "数值归一化/分箱仅拟合 train；不要把本题切分与 DANet 新适配切分混为一份论文分数。"
       ],
-      "upstream_command": "python main.py --dataset wikics --embedder AFGRL --task clustering --layers '[1024]' --pred_hid 2048 --lr 0.001 --topk 8 --device 0 --mad 0.9",
+      "asset_urls": [
+        "https://www.dropbox.com/s/r0ef3ij3wl049gl/data.tar?dl=1",
+        "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html"
+      ],
       "files": [
-        "models/AFGRL.py",
-        "main.py",
-        "run_node_clustering.sh",
-        "embedder.py"
+        "bin/train4.py",
+        "lib/deep.py",
+        "lib/data.py",
+        "exp/mlp-plr/california/0_evaluation/0.toml"
       ],
+      "entry": "bin/train4.py；配置 exp/mlp-plr/california/0_evaluation/0.toml。先按该提交 README 设置项目环境，再在独立输出目录运行；不启动整个 HPO/ensemble sweep。",
       "methods": [
-        "局部与全局正例的交集/软一致性判定。",
-        "聚类置信度驱动的正样本挖掘，避免错误正例扩散。",
-        "teacher 表征与邻域更新策略，保证不读取隐藏标签。"
+        "周期编码：学习特征相关的频带选择或稳定频率参数化。",
+        "分段编码：基于 train 分布的可学习节点/平滑插值，替换编码函数。",
+        "嵌入融合：组合局部与周期表示的特征级门控；下游 MLP 固定。"
       ],
       "repairs": [
-        "Neighbor.forward 构造稠密相似矩阵并重复 CPU FAISS KMeans；先测峰值内存和训练耗时，不能仅按 GPU 显存推断可行性。",
-        "源码顶层固定 seed；改为显式训练 seed 和聚类 seed，并记录每次独立初始化。",
-        "训练和 checkpoint 选择不得读节点标签；无监督训练目标选择规则预先冻结。最终评测 KMeans 多 seed 不能冒充多次 encoder 训练。"
+        "train4.py 每轮 evaluate([val,test])；任务适配中移除训练端 private/test 读取与输出，只允许公开 Dev。",
+        "checkpoint 同时保存嵌入、主干和预处理；必须确认原目标单位反标准化。",
+        "训练缓存必须按数据、切分和预处理哈希隔离，不能让 B/R 误用不同变换。"
       ],
-      "difficulty_reason": "官方实现同时构造 N×N 相似度并在训练过程中反复执行 CPU KMeans；两条信号支持 30 分钟内稳定单变量结论可能困难，尚未实测，若实测不成立必须降级或换题。",
-      "hard_dimension": "O4",
-      "resource": "先申请单卡 24GB、CPU 内存至少 32GB 进行容量预检；这是规划值，不是已验证最低需求",
-      "commit": "95095f4c18a54e2bda3f8a85d5e42fb9a4ce74e7",
-      "source_url": "https://github.com/Namkyeong/AFGRL",
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": [],
+      "e4": "官方单个 California 配置、训练入口和 best checkpoint 重载均存在；主要补私有评测边界及新进程重载。",
+      "resource": "单卡预检；单数据集、单主干配置，不包含论文多模型 HPO 与五模型集成。",
+      "commit": "a8fc25025c83f2321c63ff127a3bcef83bb1bfb5",
+      "source_url": "https://github.com/yandex-research/rtdl-num-embeddings",
       "status": "PREPARATION_ONLY",
       "venue_pass": true,
       "dedup": "pass",
-      "dedup_score": 0.6442,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/afgrl-difficulty.json",
-      "card": "tasks/07-afgrl.md",
+      "dedup_score": 0.5405,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/numemb-difficulty.json",
+      "card": "tasks/03-numemb.md",
       "asset_download_verified": false,
-      "gpu_reproduction_verified": false
+      "gpu_reproduction_verified": false,
+      "license_files": [
+        "LICENSE",
+        "package/LICENSE"
+      ],
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
     },
     {
-      "id": "lightgcl",
-      "title": "LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation",
+      "id": "rtdl",
+      "title": "Revisiting Deep Learning Models for Tabular Data",
+      "venue": "NeurIPS",
+      "repo": "yandex-research/rtdl-revisiting-models",
+      "link": "https://proceedings.neurips.cc/paper_files/paper/2021/hash/9d86d83f925f2149e9edb0ac3b49229c-Abstract.html",
+      "name": "FT-Transformer",
+      "year": 2021,
+      "scope": "Adult 二分类；完整 FT-Transformer；固定输入编码",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "ROC-AUC，越高越好；log-loss 和 accuracy 为质量门，Dev 选优指标同步冻结。",
+      "baseline": "采用官方 output/adult/ft_transformer/tuned/0.toml 完整模型：d_token=352、3 层、8 头、ReGLU、batch 256、patience 16。保留类别/数值 token 和 CLS 路径，不以删注意力的弱模型作 B。实际充分训练时间需测定。",
+      "assets": [
+        "官方 data.tar.gz 中 data/adult，保存数值/类别数组、词表、缺失值规则和原 train/val/test。",
+        "未知类别索引、quantile 变换和标签映射只由 train 决定；不得从全部样本重拟合。"
+      ],
+      "asset_urls": [
+        "https://www.dropbox.com/s/o53umyg6mn3zhxy/data.tar.gz?dl=1",
+        "https://archive.ics.uci.edu/dataset/2/adult"
+      ],
+      "files": [
+        "bin/ft_transformer.py",
+        "lib/data.py",
+        "output/adult/ft_transformer/tuned/0.toml"
+      ],
+      "entry": "bin/ft_transformer.py；配置 output/adult/ft_transformer/tuned/0.toml。只采用一个冻结配置进行完整多 seed 训练，不能跑完大 sweep 后挑最差 B。",
+      "methods": [
+        "MultiheadAttention：特征组结构或稀疏交互机制。",
+        "残差更新：输入条件化的 token 门控与信息保留。",
+        "CLS/输出聚合：多层特征汇聚或样本自适应读出；输入编码固定，避免与数值嵌入题重合。"
+      ],
+      "repairs": [
+        "官方评估循环会得到 test 指标；移除 Actor 训练端 test 路径，仅保留 Dev。",
+        "论文原比较不等于本题 AUC 合同：采用 AUC 选优前完成公开 Dev 预检，所有模型遵守同一规则。",
+        "n_epochs=1000000000 由早停结束；验证收敛并冻结资源上限，避免无限任务或过早截断。"
+      ],
+      "e4": "单阶段表格 Transformer；完整配置、验证追踪、checkpoint 保存和重载已有实现，需拆分独立 Verifier。",
+      "resource": "单卡预检；Adult 规模小但 352 维三层模型仍需计时，不声称 30min 已通过。",
+      "commit": "e3ed46cac38568785289d8fa16b8cfa585bde27e",
+      "source_url": "https://github.com/yandex-research/rtdl-revisiting-models",
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.747,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/rtdl-difficulty.json",
+      "card": "tasks/04-rtdl.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false,
+      "license_files": [
+        "LICENSE",
+        "package/LICENSE"
+      ],
+      "license_status": "Apache-2.0（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
+    },
+    {
+      "id": "acmgcn",
+      "title": "Revisiting Heterophily For Graph Neural Networks",
+      "venue": "NeurIPS",
+      "repo": "SitaoLuan/ACM-GNN",
+      "link": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/092359ce5cf60a80e882378944bf1be4-Abstract-Conference.html",
+      "name": "ACM-GCN",
+      "year": 2022,
+      "scope": "Cora + Citeseer；小图监督节点分类；ACM-Pytorch 分支",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "两个图各自 accuracy，等权宏平均为主；各图最低质量门预先冻结。",
+      "baseline": "完整 ACM-GCN 的 aggregation、diversification、identity 三通道及自适应混合；使用官方 acmgcn 分支。不得把普通 GCN 当正式 B。先冻结健康超参数与 split×初始化 seed 组合。",
+      "assets": [
+        "源码 ../data/ 的 Planetoid Cora/Citeseer；公开整个图结构和无标签特征，隐藏 private 标签。",
+        "训练脚本有随机切分逻辑；先生成不可变 split manifest，再固定同一 split 上的独立初始化 seed。跨 split 波动不能误标为仅初始化方差。"
+      ],
+      "asset_urls": [
+        "https://github.com/SitaoLuan/ACM-GNN/tree/75b4853f29b2ce0844283e4a64c4b1120feb295c/data",
+        "https://github.com/kimiyoung/planetoid/tree/master/data"
+      ],
+      "files": [
+        "ACM-Pytorch/train.py",
+        "ACM-Pytorch/arg_parser.py",
+        "ACM-Pytorch/utils.py",
+        "ACM-Pytorch/models/layers.py"
+      ],
+      "entry": "在 ACM-Pytorch 下 python train.py --model acmgcn --dataset_name cora；Citeseer 同入口。原脚本多 split 循环需要改成冻结合同，不直接作为正式 driver。",
+      "methods": [
+        "三通道选择：局部结构条件化的混合门，而非单一权重扫描。",
+        "高通分支：归一化/去相关的局部差分算子。",
+        "跨层融合：抑制过平滑的残差或多层通道聚合。"
+      ],
+      "repairs": [
+        "train.py 的 best_val_loss 分支保存测试分数而非独立持久化 checkpoint；补真正的 best 权重保存与新进程重载。",
+        "私有节点标签从 Actor 环境剥离；允许 transductive 图特征并不允许读全图标签。",
+        "只安装所选小图 PyTorch 分支需要的依赖；如果拆除未用下载/大型图 import，先验证等价，B/R 共用。"
+      ],
+      "e4": "小图 full-batch 单阶段监督；需补持久化选优权重和独立评分，不涉及 teacher/probe 或迁移。",
+      "resource": "单卡预检；选两张小图，排除大型图和异质采样分支。",
+      "commit": "75b4853f29b2ce0844283e4a64c4b1120feb295c",
+      "source_url": "https://github.com/SitaoLuan/ACM-GNN",
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6818,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/acmgcn-difficulty.json",
+      "card": "tasks/05-acmgcn.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false,
+      "license_files": [
+        "LICENSE"
+      ],
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
+    },
+    {
+      "id": "revins",
+      "title": "Reversible Instance Normalization for Accurate Time-Series Forecasting against Distribution Shift",
       "venue": "ICLR",
-      "link": "https://openreview.net/forum?id=FKXVK9dyMM",
-      "repo": "HKUDS/LightGCL",
-      "name": "LightGCL",
-      "year": 2023,
-      "scope": "Gowalla 全物品召回；冻结从 train 划出的 Dev",
-      "metric": "Recall@20 为主、NDCG@20 为质量门；对所有合法物品排序，屏蔽训练已交互项",
-      "baseline": "完整 LightGCL：低秩 SVD 全局视图、局部图传播、跨视图对比与 BPR。默认 100 epochs，Gowalla 示例 lambda2=0；不得移除 SVD 造弱 B。",
+      "repo": "ts-kim/RevIN",
+      "link": "https://openreview.net/forum?id=cGDAkQo1C0p",
+      "name": "RevIN + SCINet",
+      "year": 2022,
+      "scope": "ETTh1 多变量；输入 96，预测 48；固定 SCINet 主干",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "训练集标准化尺度上的全通道 MSE，越低越好；MAE 为质量门。",
+      "baseline": "完整官方 SCINet+RevIN（--ours）。采用脚本 ETTh1 I96/O48：hidden-size 4、stacks 1、levels 3、lr .009、batch 16、dropout .25；充分训练与早停实测后冻结。不能用不含 RevIN 的 SCINet 作正式评分锚点。",
       "assets": [
-        "固定源码含 data/gowalla/trnMat.pkl 与 tstMat.pkl；仅检查树和文件引用，尚未反序列化。",
-        "处理资产需在可信隔离准备环境转换为可审计的稀疏数值格式，再冻结哈希；Dev 从原训练交互中一次性划出。"
+        "ETDataset 的 ETTh1.csv；版本和下载内容哈希见 ett-assets.json。",
+        "按官方小时数据连续时间边界冻结 train/Dev/private；滑窗预测区间不能越过所属划分。历史上下文可重叠，未来标签不能参与归一化。"
       ],
-      "upstream_command": "python main.py --data gowalla --lambda2 0",
+      "asset_urls": [
+        "https://github.com/zhouhaoyi/ETDataset"
+      ],
       "files": [
-        "main.py",
-        "model.py",
-        "parser.py",
-        "utils.py"
+        "RevIN.py",
+        "baselines/SCINet/run_ETTh.py",
+        "baselines/SCINet/scripts/scinet_with_RevIN.sh",
+        "baselines/SCINet/experiments/exp_ETTh.py",
+        "baselines/SCINet/data_process/etth_data_loader.py",
+        "baselines/SCINet/models/SCINet.py"
       ],
+      "entry": "官方 scripts/scinet_with_RevIN.sh 的 ETTh1 I96/O48 单条命令；执行目录 baselines/SCINet。不要直接运行整份多数据/多窗口 sweep。",
       "methods": [
-        "谱分量选择与全局视图重构机制；保持低秩因子计算。",
-        "用户/物品度感知的正负样本选择与对比目标。",
-        "局部传播和全局信息的融合模块，避免只改温度或 SVD rank。"
+        "统计量：只用历史窗口的稳健中心/尺度估计器。",
+        "仿射映射：由历史模式条件化的可逆变换，主干结构固定。",
+        "尺度恢复：按预测跨度估计的历史条件化校准；不得访问未来真值。"
       ],
       "repairs": [
-        "原实现每三轮测试；改为固定 Dev 选择，独立 test 不用于调参。",
-        "先划 Dev 再拟合训练图/SVD，不能用测试或 Dev 交互构图；固定随机 SVD 与负采样 seed。",
-        "保存可独立重建的权重、ID 映射及 SVD 因子；禁止无意物化巨型 dense user×item 矩阵。"
+        "将按 batch 暂存的均值/标准差绑定到正确一次前向，避免并发/重载误配。",
+        "原训练循环每轮调用 test；移除私有读写，Dev 选择后由独立 Verifier 运行。",
+        "确认集成 SCINet 内实际 --ours 路径；不能只改根目录 RevIN.py 却未进入训练模型。"
       ],
-      "difficulty_reason": "每轮全图多层传播与跨视图目标，并在全部用户/物品上排序；再加完整独立 seed 集，30 分钟低方差比较的可行性尚需 GPU 实测，当前为受控高成本预评。",
-      "hard_dimension": "O4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "5590453ad86782f58017e58d0b698d7f32175be3",
-      "source_url": "https://github.com/HKUDS/LightGCL",
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": [],
+      "e4": "归一化、SCINet 和反归一化在一次监督训练内完成；官方单窗口命令与 checkpoint 路径存在。",
+      "resource": "单卡预检；一个窗口、一个数据集，仍保留完整 SCINet 和 RevIN。",
+      "commit": "fee40bc6c87cb536d048bcf1c14c4ed644b875e1",
+      "source_url": "https://github.com/ts-kim/RevIN",
       "status": "PREPARATION_ONLY",
       "venue_pass": true,
       "dedup": "pass",
-      "dedup_score": 0.6892,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/lightgcl-difficulty.json",
-      "card": "tasks/08-lightgcl.md",
+      "dedup_score": 0.6111,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/revins-difficulty.json",
+      "card": "tasks/06-revins.md",
       "asset_download_verified": false,
-      "gpu_reproduction_verified": false
+      "gpu_reproduction_verified": false,
+      "license_files": [
+        "License",
+        "baselines/Informer2020/LICENSE",
+        "baselines/SCINet/LICENSE"
+      ],
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "ETT CSV downloaded and hashed; split/training unverified",
+      "formal_paper_alternative": null
     },
     {
-      "id": "dccf",
-      "title": "Disentangled Contrastive Collaborative Filtering",
-      "venue": "SIGIR",
-      "link": "https://doi.org/10.1145/3539618.3591665",
-      "repo": "HKUDS/DCCF",
-      "name": "DCCF",
-      "year": 2023,
-      "scope": "Tmall 全物品推荐；从原 train 冻结独立 Dev",
-      "metric": "Recall@20 为主、NDCG@20 为质量门；固定全物品候选与交互过滤",
-      "baseline": "完整 DCCF：潜在意图表征、自适应图增强、多个视图的对比与推荐损失。官方 Tmall 命令 100 epochs 并使用最终 epoch；作者先验证该规则健康，B/R 共用冻结选择策略。",
+      "id": "leddam",
+      "title": "Revitalizing Multivariate Time Series Forecasting: Learnable Decomposition with Inter-Series Dependencies and Intra-Series Variations Modeling",
+      "venue": "ICML",
+      "repo": "Levi-Ackman/Leddam",
+      "link": "https://openreview.net/forum?id=87CYNyCGOo",
+      "name": "Leddam",
+      "year": 2024,
+      "scope": "ETTh2 多变量；输入 96，预测 96；完整分解与双注意力",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "训练集标准化尺度全通道 MSE，越低越好；MAE 为质量门。",
+      "baseline": "保留可学习分解、channel attention 和 auto-regressive attention。官方 ETTh2 脚本的 I96/O96 配置：d_model 256、n_layers 1、batch 128、lr 1e-4、dropout 0；不删除任一双注意力分支。",
       "assets": [
-        "固定源码 data/tmall 的 train/test pickle 与索引文件；README 说明 Tmall/Gowalla 已将 validation 并入 train。",
-        "重新切出 Dev 后重建所有派生索引和归一化邻接；切分不能在后续搜索中变化或再次并回训练。"
+        "ETTh2.csv；版本、内容哈希、列和行数见 ett-assets.json。",
+        "按 data_provider/data_loader.py 的小时边界冻结切分，scaler 仅 fit train；评测覆盖全部有效窗口。"
       ],
-      "upstream_command": "python DCCF_PyTorch.py --dataset tmall --epoch 100",
+      "asset_urls": [
+        "https://github.com/zhouhaoyi/ETDataset"
+      ],
       "files": [
-        "DCCF_PyTorch.py",
-        "model.py",
-        "utility/parser.py"
+        "models/Leddam.py",
+        "layers/Leddam.py",
+        "scripts/ETTh2/ETTh2.sh",
+        "exp/exp_long_term_forecasting.py",
+        "data_provider/data_loader.py"
       ],
+      "entry": "scripts/ETTh2/ETTh2.sh 仅取 pred_len=96 的一组配置；先把写死的 GPU 2 和数据目录改为可信主控参数。",
       "methods": [
-        "意图分解与分配约束，避免意图坍缩。",
-        "意图条件化的图边权/视图构造策略。",
-        "跨意图/跨视图对比目标与负样本选择，保持相同监督信息。"
+        "分解层：受约束的可学习平滑核或分布条件化分解。",
+        "通道注意力：结构化变量分组与交互选择。",
+        "自回归注意力：多尺度滞后聚合或状态依赖读出。"
       ],
       "repairs": [
-        "新 Dev 的全部交互必须从训练图和派生缓存移除；原 README 的合并流程不可沿用到研究迭代。",
-        "顶层固定 seed 改为显式成对 seed；每次从头训练并保存最终模型，而非重测一次模型。",
-        "完整记录四类视图的内存峰值和全物品排名耗时；内存修复 B/R 同享。"
+        "每轮 test_loss 输出移到独立评测环境。",
+        "明确 test(setting, test=1) 重载 best checkpoint；禁止将训练最后一轮权重与 best 日志混配。",
+        "固定 revin 配置；本题开放分解/注意力，归一化模块冻结，与 RevIN 题保持独立接口。"
       ],
-      "difficulty_reason": "全图意图分解、多视图 SSL 和全物品排序同时存在；跨 seed 的低方差改善不能由单次短测证明，30 分钟闭环困难属于待实测的受控推断。",
-      "hard_dimension": "O4",
-      "resource": "单卡 24–48GB 作为预检范围；若完整 Tmall 超限，冻结前改预算或换题，不能正式阶段只缩短 B",
-      "commit": "c9bcac4fee2e15d1a02a1396470b3ec29b5177d1",
-      "source_url": "https://github.com/HKUDS/DCCF",
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": [],
+      "e4": "官方模型、单配置脚本和预测循环完整；分解与双注意力端到端一次训练，不需迁移。",
+      "resource": "单卡预检；7 通道与短固定窗口，排除 Electricity/Traffic 和八数据集 sweep。",
+      "commit": "5a145f78f4425be73c9b0b0f0ef527730f35afbf",
+      "source_url": "https://github.com/Levi-Ackman/Leddam",
       "status": "PREPARATION_ONLY",
       "venue_pass": true,
       "dedup": "pass",
-      "dedup_score": 0.7339,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/dccf-difficulty.json",
-      "card": "tasks/09-dccf.md",
+      "dedup_score": 0.7527,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/leddam-difficulty.json",
+      "card": "tasks/07-leddam.md",
       "asset_download_verified": false,
-      "gpu_reproduction_verified": false
+      "gpu_reproduction_verified": false,
+      "license_files": [
+        "LICENSE"
+      ],
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "ETT CSV downloaded and hashed; split/training unverified",
+      "formal_paper_alternative": "https://proceedings.mlr.press/v235/yu24s.html"
     },
     {
-      "id": "adagcl",
-      "title": "Adaptive Graph Contrastive Learning for Recommendation",
-      "venue": "KDD",
-      "link": "https://doi.org/10.1145/3580305.3599768",
-      "repo": "HKUDS/AdaGCL",
-      "name": "AdaGCL",
-      "year": 2023,
-      "scope": "LastFM 自适应图对比推荐；Yelp 仅作为后续固定扩展，不默认并入本题",
-      "metric": "Recall@20 为主、NDCG@20 为质量门；使用原 val 切分进行选择",
-      "baseline": "完整推荐器、可训练生成视图与去噪视图及耦合目标。LastFM 示例 gamma=-0.95、ib_reg=1e-2；Params 默认 200 epochs，须按实际参数解析和曲线确认充分训练。",
+      "id": "ffl",
+      "title": "Focal Frequency Loss for Image Reconstruction and Synthesis",
+      "venue": "ICCV",
+      "repo": "EndlessSora/focal-frequency-loss",
+      "link": "https://openaccess.thecvf.com/content/ICCV2021/html/Jiang_Focal_Frequency_Loss_for_Image_Reconstruction_and_Synthesis_ICCV_2021_paper.html",
+      "name": "Focal Frequency Loss",
+      "year": 2021,
+      "scope": "CIFAR-10 32×32 图像重建；官方 MLP 自编码器 + FFL",
+      "adaptation": "NEW_DATASET_ADAPTER_REQUIRED",
+      "metric": "逐图 PSNR（[0,1]、data_range=1）宏平均，越高越好；SSIM 为质量门。不以可修改训练 loss 自评。",
+      "baseline": "采用官方 VanillaAE 的 MLP（不是卷积 AE），输入/输出 3072、nz 256、nblk 2，完整像素 MSE+FFL。权重/训练长度在公开 Dev 上用可比机会选择健康配置，不能删 FFL 或压低训练。CIFAR 是新任务适配，不能引用 CelebA 表中分数作本题 B。",
       "assets": [
-        "固定源码 Datasets/lastFM/{trnMat,valMat,tstMat}.pkl；严格使用原三分法，转换后保存一致性和哈希记录。",
-        "Model.py 多套网络和 Main.py 多优化器需要整体保存，单一推荐 embedding 不一定能重建训练或推理状态。"
+        "CIFAR-10 官方 50,000 train / 10,000 test，32×32 RGB；训练内固定 45,000/5,000 train/Dev。",
+        "优先二进制版，逐条校验 label+3072 bytes，导出 PNG/filelist 或等价只读 loader；图像 identity 及切分哈希冻结。此轮未下载完整 CIFAR。"
       ],
-      "upstream_command": "python Main.py --data lastfm --gamma -0.95 --ib_reg 1e-2",
+      "asset_urls": [
+        "https://www.cs.toronto.edu/~kriz/cifar.html"
+      ],
       "files": [
-        "Main.py",
-        "Model.py",
-        "Params.py",
-        "DataHandler.py"
+        "VanillaAE/models.py",
+        "VanillaAE/networks.py",
+        "VanillaAE/train.py",
+        "VanillaAE/data.py",
+        "VanillaAE/utils.py",
+        "focal_frequency_loss/focal_frequency_loss.py",
+        "scripts/VanillaAE/train/celeba_recon_w_ffl.sh"
       ],
+      "entry": "VanillaAE/train.py 原生接受 filelist/folderall；先做 CIFAR 解码和 filelist 适配，imageSize=32。官方 CelebA 脚本不能直接当本题已验证命令。",
       "methods": [
-        "生成图视图的边分布/结构先验与采样机制。",
-        "DenoisingNet 的可学习过滤目标与图一致性策略。",
-        "推荐器与两个视图的训练耦合/更新规则，区别于固定 SVD 或意图解耦。"
+        "频率权重：分布稳健或误差历史条件化的频率加权函数。",
+        "频率表示：多尺度局部频谱分解，保持空间重建对象不变。",
+        "目标组合：按频段校准像素/频谱梯度或约束一致性，而非只改 alpha/ffl_w。"
       ],
       "repairs": [
-        "默认 GPU 参数与 .cuda 路径需核对，按容器设备映射统一修正；预检保存实际 argv。",
-        "每轮 test 改成 val 选择；私有 test 只在正式评测中使用。",
-        "分别保存生成器、去噪器、推荐器与各自优化状态，检查重载后的实际预测一致性；固定随机视图采样 seed。"
+        "训练循环只按 epoch 保存 checkpoint，没有 Dev 选优；新增共享 Dev PSNR 选优和新进程重载。",
+        "统一 [-1,1] 网络输入/输出到 [0,1] 评测的变换、裁剪和 SSIM 参数，防止利用尺度拿分。",
+        "冻结 MLP 架构与信息瓶颈，禁止 identity bypass；训练用输入本身作重建标签是任务定义，禁止查表或 memorized private 图像。"
       ],
-      "difficulty_reason": "生成式图模块、去噪网络和推荐器由多个优化器协同更新；checkpoint 完整性、视图采样和最终排名必须贯通验证。",
-      "hard_dimension": "E4",
-      "resource": "单卡 24GB 起做预检；实测后冻结显存、CPU、内存和磁盘预算",
-      "commit": "6359f1ed568bf3f99d6351848b9a0c7391c1c93f",
-      "source_url": "https://github.com/HKUDS/AdaGCL",
-      "license_status": "未发现根目录 LICENSE；不随本交接转载上游源码，正式再分发需先解决授权或独立实现",
-      "license_files": [],
+      "e4": "一个自编码器、一个优化器的监督重建；需要数据 filelist 和 Dev 选优适配，评分可直接从重建图复算。",
+      "resource": "单卡预检；32×32 MLP 重建，不引入 GAN、扩散、预训练感知模型或 FID 网络。",
+      "commit": "352f69da503f55267d8c148da04ea625ed1c9552",
+      "source_url": "https://github.com/EndlessSora/focal-frequency-loss",
       "status": "PREPARATION_ONLY",
       "venue_pass": true,
       "dedup": "pass",
-      "dedup_score": 0.7402,
-      "difficulty": "困难（预评）",
-      "difficulty_evidence": "reports/selection/adagcl-difficulty.json",
-      "card": "tasks/10-adagcl.md",
+      "dedup_score": 0.5818,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/ffl-difficulty.json",
+      "card": "tasks/08-ffl.md",
       "asset_download_verified": false,
-      "gpu_reproduction_verified": false
+      "gpu_reproduction_verified": false,
+      "license_files": [
+        "LICENSE.md"
+      ],
+      "license_status": "MIT（根许可证；捆绑组件和数据条款分别核验）",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
+    },
+    {
+      "id": "evennet",
+      "title": "EvenNet: Ignoring Odd-Hop Neighbors Improves Robustness of Graph Neural Networks",
+      "venue": "NeurIPS",
+      "repo": "Leirunlin/EvenNet",
+      "link": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/1e62dae07279cb09d2e87378d10dacfc-Abstract-Conference.html",
+      "name": "EvenNet",
+      "year": 2022,
+      "scope": "Cora + Citeseer；clean graph 节点分类；偶数阶传播",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "两个图 accuracy 等权平均，越高越好；各图质量门冻结。仅声明 clean classification，不声称完成鲁棒攻击评测。",
+      "baseline": "完整 EvenNet：MLP 与可学习偶数阶图滤波。采用 src/exp_common.sh 的两图配置，K=10、hidden=64、epochs=1000、early_stopping=200，具体 drop/lr 按图冻结；保留原方法核心。",
+      "assets": [
+        "DatasetLoader 的 Cora/Citeseer Planetoid 数据；记录实际下载版本和节点 ID。",
+        "原 main_common 每 run 使用不同 split seed；正式合同显式分离 split seed 和初始化 seed，冻结全部组合，B/R 配对运行。"
+      ],
+      "asset_urls": [
+        "https://github.com/kimiyoung/planetoid/tree/master/data"
+      ],
+      "files": [
+        "src/main_common.py",
+        "src/train_common.py",
+        "src/propagate.py",
+        "src/models.py",
+        "src/parse.py",
+        "src/exp_common.sh"
+      ],
+      "entry": "src/exp_common.sh 只取 cora 与 citeseer 两条；main_common.py --net EvenNet。clean 分支仍 import attack/deeprobust，先做共享依赖适配。",
+      "methods": [
+        "偶数阶系数：稳定性约束的滤波参数化，不能只扫描 K。",
+        "传播通道：特征组相关的偶数阶滤波与融合。",
+        "特征输出：局部输入与传播表征的自适应残差结合。"
+      ],
+      "repairs": [
+        "Exp.fit 只把 best weights 留在内存；补落盘、配置绑定和独立重载，不用内存对象冒充交付模型。",
+        "清理未使用攻击依赖时保证训练等价，且 B/R 共用；不在本题扩展攻击网格。",
+        "未发现根目录 LICENSE。这里只交接链接与原创设计；正式分发实现前解决授权或从论文独立实现，并复验健康 B。"
+      ],
+      "e4": "clean 分支单次监督训练、Dev loss 选优；需把内存 best 权重持久化，不需要对抗生成或第二模型训练。",
+      "resource": "单卡预检；两张小图，原攻击/注入实验不纳入本题范围。",
+      "commit": "8b0477c01dd7aa3bcf00ea4a368310013978fb84",
+      "source_url": "https://github.com/Leirunlin/EvenNet",
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6281,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/evennet-difficulty.json",
+      "card": "tasks/09-evennet.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false,
+      "license_files": [],
+      "license_status": "未发现根目录许可证；正式再分发需解决授权或独立实现",
+      "dataset_content_check": "NOT_DOWNLOADED_OR_VALIDATED",
+      "formal_paper_alternative": null
+    },
+    {
+      "id": "micn",
+      "title": "MICN: Multi-scale Local and Global Context Modeling for Long-term Series Forecasting",
+      "venue": "ICLR",
+      "repo": "wanghq21/MICN",
+      "link": "https://openreview.net/forum?id=zt53IDUR1U",
+      "name": "MICN",
+      "year": 2023,
+      "scope": "ETTh1 多变量；输入 96，预测 96；完整多尺度卷积",
+      "adaptation": "NATIVE_SMALL_BENCHMARK",
+      "metric": "训练集标准化尺度全通道 MSE，越低越好；MAE 为质量门。",
+      "baseline": "采用官方 ETTh1 单窗口 regre 分支：conv_kernel=[12,16]、d_layers=1、d_model=512、seq_len=label_len=pred_len=96。保留多尺度分解、局部/全局卷积、反卷积和趋势回归，完整训练到 Dev 早停。",
+      "assets": [
+        "ETTh1.csv；固定版本内容信息见 ett-assets.json。",
+        "data/data_loader.py 的时间边界、变量顺序、scaler 和时间特征共同冻结；未来 decoder 数值必须置零或仅含已知历史。"
+      ],
+      "asset_urls": [
+        "https://github.com/zhouhaoyi/ETDataset"
+      ],
+      "files": [
+        "models/model.py",
+        "models/local_global.py",
+        "data/data_loader.py",
+        "exp/exp_informer.py",
+        "scripts/ETTh.sh",
+        "run.py"
+      ],
+      "entry": "python -u run.py --model micn --mode regre --data ETTh1 --features M --freq h --conv_kernel 12 16 --d_layers 1 --d_model 512 --seq_len 96 --label_len 96 --pred_len 96；数据路径与环境仍需预检。",
+      "methods": [
+        "多尺度分解：基于历史的可学习趋势/季节分离。",
+        "跨尺度融合：信息依赖门控或残差混合，替换固定融合方式。",
+        "局部/全局卷积：共享低秩或结构化长程算子；保留预测接口与资源约束。"
+      ],
+      "repairs": [
+        "exp_informer 训练中每轮读 test_loss；改为仅 Dev，独立 Verifier 才能读取 private。",
+        "显式配置设备与数据路径；源码 device 默认 cuda:0，不能与调度分配冲突。",
+        "未发现根目录 LICENSE；正式再分发前解决授权或独立实现并复现，不直接复制上游无许可代码。"
+      ],
+      "e4": "一次训练联合趋势回归和季节卷积，已有 checkpoint 重载；主要修复私有评测边界与设备配置。",
+      "resource": "单卡预检；一个数据集和窗口，512 维完整模型的显存/时间待测。",
+      "commit": "370c69b841d72246556ca05dd23163c560c22b5a",
+      "source_url": "https://github.com/wanghq21/MICN",
+      "status": "PREPARATION_ONLY",
+      "venue_pass": true,
+      "dedup": "pass",
+      "dedup_score": 0.6405,
+      "difficulty": "中等（预评）",
+      "difficulty_evidence": "reports/selection/micn-difficulty.json",
+      "card": "tasks/10-micn.md",
+      "asset_download_verified": false,
+      "gpu_reproduction_verified": false,
+      "license_files": [],
+      "license_status": "未发现根目录许可证；正式再分发需解决授权或独立实现",
+      "dataset_content_check": "ETT CSV downloaded and hashed; split/training unverified",
+      "formal_paper_alternative": null
     }
   ]
 }

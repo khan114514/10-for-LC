@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-17 17:01:16",
+  "subject_id": "danet",
+  "pe_version": "difficulty-pe.md 2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "固定源码存在，任务适配类型 NEW_DATASET_ADAPTER_REQUIRED。所选依赖尚未在目标机构建；代码入口：https://github.com/WhatAShot/DANet/blob/b007c57121ec9082f6ef19ec7465d9df70767c26/main.py"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "California Housing：20,640 样本、8 个数值特征；使用 sklearn 官方 fetch_california_housing 数据定义，原始文件与处理数组分别计算哈希。；这是论文方法在新小数据上的自命题，不是论文七数据集原表复现。拟固定 60/20/20 随机切分，保存行 ID；只在 train 拟合分位数变换与目标标准化。 数据/许可证/切分完整性仍需预检。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "单卡预检；DANet-20 的总收敛时间待测，旧配置长 patience 是优先风险。 没有目标 GPU 实测。"
+    },
+    "E4": {
+      "score": 1,
+      "basis": "code",
+      "note": "单阶段监督回归，main.py 已有验证选优与预测调用；新增 loader/配置和独立重载尚未完成。"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "论文贡献已定位到 main.py, config/default.py, model/DANet.py；适配后需通过消融确认实际作用。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "infer",
+      "note": "三个独立候选：LearnableLocality：设计输入条件化的稀疏特征分组，而非只调组数 k。；AbstractLayer：改组内特征组合与门控函数，保持接口维度和预算可比。；BasicBlock：改原始特征与深层表示的残差融合机制。 尚未证明可稳定改善健康 B。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "固定源码存在，任务适配类型 NEW_DATASET_ADAPTER_REQUIRED。所选依赖尚未在目标机构建；代码入口：https://github.com/WhatAShot/DANet/blob/b007c57121ec9082f6ef19ec7465d9df70767c26/main.py"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "California Housing：20,640 样本、8 个数值特征；使用 sklearn 官方 fetch_california_housing 数据定义，原始文件与处理数组分别计算哈希。；这是论文方法在新小数据上的自命题，不是论文七数据集原表复现。拟固定 60/20/20 随机切分，保存行 ID；只在 train 拟合分位数变换与目标标准化。 数据/许可证/切分完整性仍需预检。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "单卡预检；DANet-20 的总收敛时间待测，旧配置长 patience 是优先风险。 没有目标 GPU 实测。"
+        },
+        "E4": {
+          "score": 1,
+          "basis": "code",
+          "note": "单阶段监督回归，main.py 已有验证选优与预测调用；新增 loader/配置和独立重载尚未完成。"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "论文贡献已定位到 main.py, config/default.py, model/DANet.py；适配后需通过消融确认实际作用。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "infer",
+          "note": "三个独立候选：LearnableLocality：设计输入条件化的稀疏特征分组，而非只调组数 k。；AbstractLayer：改组内特征组合与门控函数，保持接口维度和预算可比。；BasicBlock：改原始特征与深层表示的残差融合机制。 尚未证明可稳定改善健康 B。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        }
+      }
+    }
+  },
+  "final_level": "中等",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 2,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）",
+    "O4: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "scope": "California Housing 回归；完整 DANet-20；新增小数据适配",
+  "reviewer_confidence": "中；O3 消融/失败支撑尚未完整核实，O4 的 30min 低方差实验尚未运行，默认 1 分不代表通过",
+  "reassessment_gate": "若 E3/E4/O2/O4 实测为 2 或触发其他困难规则，退出本中等批次；不得通过修改分值、删核心模块或欠训练维持中等"
+}

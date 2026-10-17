@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-17 17:01:17",
+  "subject_id": "numemb",
+  "pe_version": "difficulty-pe.md 2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "固定源码存在，任务适配类型 NATIVE_SMALL_BENCHMARK。所选依赖尚未在目标机构建；代码入口：https://github.com/yandex-research/rtdl-num-embeddings/blob/a8fc25025c83f2321c63ff127a3bcef83bb1bfb5/bin/train4.py"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "官方 README 的 data.tar 含 data/california，保留官方 train/val/test 与目标缩放信息。；数值归一化/分箱仅拟合 train；不要把本题切分与 DANet 新适配切分混为一份论文分数。 数据/许可证/切分完整性仍需预检。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "单卡预检；单数据集、单主干配置，不包含论文多模型 HPO 与五模型集成。 没有目标 GPU 实测。"
+    },
+    "E4": {
+      "score": 1,
+      "basis": "code",
+      "note": "官方单个 California 配置、训练入口和 best checkpoint 重载均存在；主要补私有评测边界及新进程重载。"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "论文贡献已定位到 bin/train4.py, lib/deep.py, lib/data.py；适配后需通过消融确认实际作用。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "infer",
+      "note": "三个独立候选：周期编码：学习特征相关的频带选择或稳定频率参数化。；分段编码：基于 train 分布的可学习节点/平滑插值，替换编码函数。；嵌入融合：组合局部与周期表示的特征级门控；下游 MLP 固定。 尚未证明可稳定改善健康 B。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "固定源码存在，任务适配类型 NATIVE_SMALL_BENCHMARK。所选依赖尚未在目标机构建；代码入口：https://github.com/yandex-research/rtdl-num-embeddings/blob/a8fc25025c83f2321c63ff127a3bcef83bb1bfb5/bin/train4.py"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "官方 README 的 data.tar 含 data/california，保留官方 train/val/test 与目标缩放信息。；数值归一化/分箱仅拟合 train；不要把本题切分与 DANet 新适配切分混为一份论文分数。 数据/许可证/切分完整性仍需预检。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "单卡预检；单数据集、单主干配置，不包含论文多模型 HPO 与五模型集成。 没有目标 GPU 实测。"
+        },
+        "E4": {
+          "score": 1,
+          "basis": "code",
+          "note": "官方单个 California 配置、训练入口和 best checkpoint 重载均存在；主要补私有评测边界及新进程重载。"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "论文贡献已定位到 bin/train4.py, lib/deep.py, lib/data.py；适配后需通过消融确认实际作用。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "infer",
+          "note": "三个独立候选：周期编码：学习特征相关的频带选择或稳定频率参数化。；分段编码：基于 train 分布的可学习节点/平滑插值，替换编码函数。；嵌入融合：组合局部与周期表示的特征级门控；下游 MLP 固定。 尚未证明可稳定改善健康 B。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        }
+      }
+    }
+  },
+  "final_level": "中等",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 2,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）",
+    "O4: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "scope": "California Housing；固定 MLP 主干，仅开放数值嵌入",
+  "reviewer_confidence": "中；O3 消融/失败支撑尚未完整核实，O4 的 30min 低方差实验尚未运行，默认 1 分不代表通过",
+  "reassessment_gate": "若 E3/E4/O2/O4 实测为 2 或触发其他困难规则，退出本中等批次；不得通过修改分值、删核心模块或欠训练维持中等"
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-17 17:01:17",
+  "subject_id": "ffl",
+  "pe_version": "difficulty-pe.md 2026-09-28",
+  "dimensions": {
+    "E1": {
+      "score": 1,
+      "basis": "code",
+      "note": "固定源码存在，任务适配类型 NEW_DATASET_ADAPTER_REQUIRED。所选依赖尚未在目标机构建；代码入口：https://github.com/EndlessSora/focal-frequency-loss/blob/352f69da503f55267d8c148da04ea625ed1c9552/VanillaAE/models.py"
+    },
+    "E2": {
+      "score": 1,
+      "basis": "code",
+      "note": "CIFAR-10 官方 50,000 train / 10,000 test，32×32 RGB；训练内固定 45,000/5,000 train/Dev。；优先二进制版，逐条校验 label+3072 bytes，导出 PNG/filelist 或等价只读 loader；图像 identity 及切分哈希冻结。此轮未下载完整 CIFAR。 数据/许可证/切分完整性仍需预检。"
+    },
+    "E3": {
+      "score": 1,
+      "basis": "infer",
+      "note": "单卡预检；32×32 MLP 重建，不引入 GAN、扩散、预训练感知模型或 FID 网络。 没有目标 GPU 实测。"
+    },
+    "E4": {
+      "score": 1,
+      "basis": "code",
+      "note": "一个自编码器、一个优化器的监督重建；需要数据 filelist 和 Dev 选优适配，评分可直接从重建图复算。"
+    },
+    "O1": {
+      "score": 1,
+      "basis": "code",
+      "note": "论文贡献已定位到 VanillaAE/models.py, VanillaAE/networks.py, VanillaAE/train.py；适配后需通过消融确认实际作用。"
+    },
+    "O2": {
+      "score": 1,
+      "basis": "infer",
+      "note": "三个独立候选：频率权重：分布稳健或误差历史条件化的频率加权函数。；频率表示：多尺度局部频谱分解，保持空间重建对象不变。；目标组合：按频段校准像素/频谱梯度或约束一致性，而非只改 alpha/ffl_w。 尚未证明可稳定改善健康 B。"
+    },
+    "O3": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    },
+    "O4": {
+      "score": 1,
+      "basis": "default",
+      "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+    }
+  },
+  "axes": {
+    "E": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "E1": {
+          "score": 1,
+          "basis": "code",
+          "note": "固定源码存在，任务适配类型 NEW_DATASET_ADAPTER_REQUIRED。所选依赖尚未在目标机构建；代码入口：https://github.com/EndlessSora/focal-frequency-loss/blob/352f69da503f55267d8c148da04ea625ed1c9552/VanillaAE/models.py"
+        },
+        "E2": {
+          "score": 1,
+          "basis": "code",
+          "note": "CIFAR-10 官方 50,000 train / 10,000 test，32×32 RGB；训练内固定 45,000/5,000 train/Dev。；优先二进制版，逐条校验 label+3072 bytes，导出 PNG/filelist 或等价只读 loader；图像 identity 及切分哈希冻结。此轮未下载完整 CIFAR。 数据/许可证/切分完整性仍需预检。"
+        },
+        "E3": {
+          "score": 1,
+          "basis": "infer",
+          "note": "单卡预检；32×32 MLP 重建，不引入 GAN、扩散、预训练感知模型或 FID 网络。 没有目标 GPU 实测。"
+        },
+        "E4": {
+          "score": 1,
+          "basis": "code",
+          "note": "一个自编码器、一个优化器的监督重建；需要数据 filelist 和 Dev 选优适配，评分可直接从重建图复算。"
+        }
+      }
+    },
+    "O": {
+      "score": 4,
+      "level": "中等",
+      "applied_rules": [],
+      "dimensions": {
+        "O1": {
+          "score": 1,
+          "basis": "code",
+          "note": "论文贡献已定位到 VanillaAE/models.py, VanillaAE/networks.py, VanillaAE/train.py；适配后需通过消融确认实际作用。"
+        },
+        "O2": {
+          "score": 1,
+          "basis": "infer",
+          "note": "三个独立候选：频率权重：分布稳健或误差历史条件化的频率加权函数。；频率表示：多尺度局部频谱分解，保持空间重建对象不变。；目标组合：按频段校准像素/频谱梯度或约束一致性，而非只改 alpha/ffl_w。 尚未证明可稳定改善健康 B。"
+        },
+        "O3": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        },
+        "O4": {
+          "score": 1,
+          "basis": "default",
+          "note": "文章/材料未披露该项 → 默认 1 分（置信度下降）"
+        }
+      }
+    }
+  },
+  "final_level": "中等",
+  "composite_upgrade": false,
+  "confidence": "中",
+  "default_dimensions": 2,
+  "notes": [
+    "O3: 缺失 → 默认 1 分（basis=default）",
+    "O4: 缺失 → 默认 1 分（basis=default）"
+  ],
+  "status": "PROVISIONAL_NOT_GPU_VALIDATED",
+  "scope": "CIFAR-10 32×32 图像重建；官方 MLP 自编码器 + FFL",
+  "reviewer_confidence": "中；O3 消融/失败支撑尚未完整核实，O4 的 30min 低方差实验尚未运行，默认 1 分不代表通过",
+  "reassessment_gate": "若 E3/E4/O2/O4 实测为 2 或触发其他困难规则，退出本中等批次；不得通过修改分值、删核心模块或欠训练维持中等"
+}
