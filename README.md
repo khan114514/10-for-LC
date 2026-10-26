@@ -17,18 +17,20 @@
 
 难度按动态双轴 PE 规则计算，十题均 E=4/8、O=4/8，置信度中。30 分钟低方差实验尚未实测；若实测升级为困难，换题或重新设计，不能靠欠训练、删除核心模块或调分维持中等。DANet、FFL 是显式小数据适配，NODE 需 CLI 装配；不称为论文全部实验的复现。
 
+Skill 已同步截至 2026-10-27 可取得的最新本地 V4 内容规则，**不包含此前批次的豁免**。实际随附 QA 工具仍为 0.3.4；官方 0.3.10 发布包及格式/GPU/指纹脚本未取得，不能将旧版 PASS 当新版正式验收。详见 [V4 合同](skills/autoresearch-manager/references/phase3-v4-contract.md)。
+
 ## 接手顺序
 
 1. 阅读 [共同要求](requirements/common.md)和[选题证据](reports/selection/README.md)。
 2. 按题卡完成数据/依赖适配，填写 [真实预检](templates/preflight.md)，确认充分训练 B、成本、方差和方法空间后冻结合同。
-3. 使用 [修正版 manager](requirements/runbook.md)。中等选题仍保留健康 B/R、10h 双轨、当前 SHA 复验、NOP、12h 稳定性和同一 ZIP 双 AI PASS。
+3. 使用 [更新版 manager](requirements/runbook.md)。中等选题仍保留健康 B/R、10h 双轨、当前 SHA 复验、NOP、12h 稳定性和同一 ZIP 双 AI PASS。
 4. 整个仓库含作者答案和审核材料，**不能挂给 Actor、放进题目镜像或作为正式提交 ZIP**。
 
 ## 工具与既有 skill 修复
 
 - `python3 tools/verify_handoff.py`：核验十题、评级、文件哈希和原版 QA v0.3.4。
 - `python3 tools/fetch_source.py revins --dest /absolute/author-only/source`：只获取固定源码，不安装/执行；目标目录必须为空。
-- [Skill 审查与修复](reports/skill-review/README.md)：保留前次已修复的单侧失败恢复、成功轨迹复用校验、输入阻塞恢复、driver 路径及 reviewer 身份检查；本轮未改 manager 或固定 QA。
+- [Skill 审查与修复](reports/skill-review/README.md)：保留前次已修复的单侧失败恢复、成功轨迹复用校验、输入阻塞恢复、driver 路径及 reviewer 身份检查；2026-10-27 已同步最新本地 V4 规则并去掉此前批次豁免，执行器与固定 QA 资产保持原样。
 - [验证记录](reports/validation/README.md)：区分本轮材料检查与 2026-10-15 的 34 项 manager/Docker 验证。
 
 前一版困难十题保留在 [6370c57](https://github.com/khan114514/10-for-LC/tree/6370c579ee299e3346ff57d0997fc1a2ed7422bf)。本轮全部换题，也未重复更早的 GAD-NR、SoftCLT、RecDCL。EvenNet/MICN 的代码分发授权仍须确认；所有数据条款另行核验。

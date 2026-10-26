@@ -1,5 +1,13 @@
 # 持久化运行合同
 
+## 教程与执行器版本边界
+
+三期新要求见 [V4 合同](phase3-v4-contract.md)。本文件记录现有 **0.3.4 执行器**的机器接口，不是官方 0.3.10 规范。当前 `manager.py` 的 `validate_plan`、QA容器和聚合器仍绑定随附0.3.4资产；不得只把 qa_version 改成0.3.10或改旧manifest冒充升级。正式新合同须先取得真实0.3.10发布包及独立前检/指纹脚本，再核对并适配实际报告协议；缺工具时内容准备继续，完整新版验收保持待补。旧计划、暂停和在途任务保持原状态，不自动迁移。
+
+V4 内容要求：两镜像不是必需，Solver/Verifier 是不同sandbox；每轮公开Dev，结束后只移交候选再Hidden；每个sandbox单容器，无Compose/额外工作环境；GPU实际H20优先或L20，CPU不加GPU；QA15有日志资源估算，QA21四项指纹；格式/GPU检查后重交完整三目录ZIP，保留最终ZIP SHA256。旧计时JSON是此执行器适配接口，并非教程额外要求每个专家实现独立计时器。
+
+本交接不采用此前批次的放宽口径。指纹绑定、目标硬件影响、当前镜像与调用、网络约束、NOP 按 [V4 合同](phase3-v4-contract.md) 完整核验；原始报告与历史记录保持原样。
+
 ## Plan
 
 主控专用JSON，不得进入题包。schema_version=1；task_root是绝对作者任务目录；goal是用户目标。contract包含qa_version=0.3.4、effective_seconds_per_track=36000、stability_seconds=43200。reviewers为两个不同身份对象，各有provider/model/version，必须使用用户指定模型与最新路由，不自动替换。

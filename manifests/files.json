@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_on": "2026-10-17",
+  "generated_on": "2026-10-27",
   "excluded": [
     ".git/",
     "__pycache__/",
@@ -12,12 +12,12 @@
       "bytes": 119
     },
     "AGENTS.md": {
-      "sha256": "9a49a69df6946caaa0da876a90f34f9b536047be86369877acb7ad7beb94b3bb",
-      "bytes": 1534
+      "sha256": "997b0eb45429e7264a3bc641fc37c9e3302eb4bd236adef9fad227bc11c68a1b",
+      "bytes": 1780
     },
     "README.md": {
-      "sha256": "edc19f887025cbbca2f830339b68953a26800a44643dc4aee1eebb4383185b84",
-      "bytes": 3508
+      "sha256": "e4b6303a27bf421bfd2d9c069edd1b569ec30633171bdf774ef6d4d38a056ab9",
+      "bytes": 3928
     },
     "manifests/sources.json": {
       "sha256": "8aecc6d389702cd5f23d4bddf7a1d105d9426e6aa08d3742b93f0d4b9a8bc29d",
@@ -88,8 +88,8 @@
       "bytes": 2353
     },
     "reports/skill-review/README.md": {
-      "sha256": "14b0ab69e6fe67f32e8b05ce8df564b90c0e06b02e4a378be1ace32c64bde316",
-      "bytes": 3364
+      "sha256": "2fcd26691da3dc061e6fd95ab40cfe60e6c45f1bdd3de32a2a7785dd5e80c828",
+      "bytes": 4352
     },
     "reports/skill-review/adversarial-5.txt": {
       "sha256": "ba6d772147de56b8381647cbea260fda6d3f45d0a7fd0f3e0abcb3ae2fcc506f",
@@ -120,8 +120,8 @@
       "bytes": 889
     },
     "reports/validation/README.md": {
-      "sha256": "21456bddd3818d428eb981b077c4fbbbc715fccb383fef3964cc401f179770da",
-      "bytes": 2571
+      "sha256": "fa80d0ec637e9252d56c7a5f85c8874e333b84efad2ee19cae22d099de93ec32",
+      "bytes": 3297
     },
     "reports/validation/medium-handoff.json": {
       "sha256": "60a1a4f53bba209c2b2b2c038f0065e088201e48300cf96f7b1c103bdecae595",
@@ -140,16 +140,16 @@
       "bytes": 874
     },
     "requirements/common.md": {
-      "sha256": "4be5505bd907a7a4819382cf04847b352cbf3c46fb8943b3c386296e0bfc6638",
-      "bytes": 7573
+      "sha256": "343f9c786b3c90ad50733b7d86fab25a843e377af25bf272fc853e4c49dcebd0",
+      "bytes": 8143
     },
     "requirements/runbook.md": {
-      "sha256": "e6bf5c3e7bd8fd72b712ce12add2eaa78fa1d93e4d056ac753b52ff8c03a6458",
-      "bytes": 4354
+      "sha256": "d31912617bbb70971ef62af942d25ff5b512278696a6014025cc0cd5d5f96d80",
+      "bytes": 4667
     },
     "skills/autoresearch-manager/SKILL.md": {
-      "sha256": "ed95f0609fb43f133ce844d3607c9bce133a0b1caeb3b4f6be0c1e0728dceaba",
-      "bytes": 5549
+      "sha256": "fade6a7fda2023fd6d8625b03a715cbda359e02137f1e6236192967d4cd11751",
+      "bytes": 7823
     },
     "skills/autoresearch-manager/agents/openai.yaml": {
       "sha256": "d17696da169b951d07ff90524c074e9e2c7dfdea182d1aa4f3386fca406a4c0d",
@@ -295,9 +295,13 @@
       "sha256": "dac90632ade757dced090b4ee1e8bf304a2160e142a5af908c3e393a891e9c9a",
       "bytes": 21458
     },
+    "skills/autoresearch-manager/references/phase3-v4-contract.md": {
+      "sha256": "ecdd75c90157056b50df1c69833e697f888c86b8ae1da7dd7efb8322e982e3e0",
+      "bytes": 20591
+    },
     "skills/autoresearch-manager/references/runtime-contract.md": {
-      "sha256": "0a29ffc6b8c496abb0a614d31e5b6bc1a9f2c11b09a2b1331141bcb629a46c00",
-      "bytes": 6712
+      "sha256": "aed966799d29ec9018290448a11d07aba91d224d22b7b052da2325aa9b0dacd0",
+      "bytes": 7983
     },
     "skills/autoresearch-manager/scripts/agent_stage.py": {
       "sha256": "0b61fb5a350d2f49472e9ac024d07b8712fbe96f0daa9f9d787c29c3e4913a97",
@@ -392,12 +396,12 @@
       "bytes": 4050
     },
     "templates/preflight.md": {
-      "sha256": "849162cbd591c0ea0c072c1a9441c0af5f7cea5b3fed47b6cd58e27788c6a411",
-      "bytes": 1651
+      "sha256": "36df94b1fa1436a02895c40317b897daab2db1a64dcfa8c1dfa57d03cf382a46",
+      "bytes": 2027
     },
     "templates/task-contract-draft.json": {
-      "sha256": "6416a14afa312285639fc8e834f84bdec49a41d0192e3081e32e9aec14a3431f",
-      "bytes": 1361
+      "sha256": "2ca24ee0b739473c3ac01c98a12a3a73c376da23ea6b1f7d031e62d1bd7f98fa",
+      "bytes": 1622
     },
     "tools/fetch_source.py": {
       "sha256": "b93d5ac6f6924eac6c21b3fadedc5815090f42f56692faebb0e49d39f7d279b1",

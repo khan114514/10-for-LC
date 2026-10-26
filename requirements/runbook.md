@@ -1,8 +1,8 @@
 # 从交接材料到正式运行
 
-## 使用本仓库的修正版 skill
+## 使用本仓库的更新版 skill
 
-本批交接修正的是 `skills/autoresearch-manager`。先运行仓库根目录的 `python3 tools/verify_handoff.py`，然后读取该目录的 SKILL.md 和 references/runtime-contract.md。接手机器可直接从仓库的绝对路径调用 manager；也可把整个 skill 目录复制到独立版本目录。不要只复制 SKILL.md，运行脚本和固定 QA 资产是必要组成部分。
+本批交接更新的是 `skills/autoresearch-manager`：同步最新本地 V4 规则，去除此前批次豁免，保留既有执行器恢复修复。先运行仓库根目录的 `python3 tools/verify_handoff.py`，然后读取该目录的 SKILL.md、references/phase3-v4-contract.md 和 references/runtime-contract.md。V4 内容规则与随附 0.3.4 执行器分开记版本；取得真实新版工具并适配报告协议前，不能仅改 qa_version 或把旧执行器 DONE 称为新版正式验收。接手机器可直接从仓库的绝对路径调用 manager；也可把整个 skill 目录复制到独立版本目录。不要只复制 SKILL.md，运行脚本和固定 QA 资产是必要组成部分。
 
 本次没有覆盖提交者正在使用的全局 skill，也没有改写或恢复任何旧任务。接手已有运行时，应先保持其原始 plan、状态、证据与脚本快照，等安全轮次边界再迁移；保留用户暂停状态和在途任务。新十题使用新 run-dir，不复用旧题状态。
 

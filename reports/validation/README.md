@@ -2,6 +2,12 @@
 
 这是仓库材料与管理框架的验证，不是十题正式执行验收。
 
+## 2026-10-27 Skill 规则同步
+
+本轮仅修改 skill 文档、交接说明及合同/预检模板，新增无批次豁免的 V4 合同。`skill-creator` 的 `quick_validate.py` 通过；变更文件的 Markdown 本地链接、JSON 解析、私人路径/常见凭据模式检查通过；`git diff --check` 通过。固定 QA v0.3.4 的 34 个文件哈希与原 manifest 一致，manager 执行器与原测试脚本未改动，未重复运行历史框架/Docker 测试。完整文件清单重新生成并由 `tools/verify_handoff.py` 核验。
+
+官方 0.3.10 发布包及格式/GPU/指纹脚本仍未取得；本轮检查不代表新版官方自检、GPU 实验或正式题目 QA。以下记录保留原日期与原范围。
+
 2026-10-17 中等批次：10/10 在线查重 pass，10/10 中等预评；固定源码及指定入口已核对，ETTh1/ETTh2 CSV 已下载计哈希。当前仓库完整性与评级错配拒绝检查见 [medium-handoff.json](medium-handoff.json)，本轮严格隐私扫描见 [privacy-medium.json](privacy-medium.json)。manager/QA 本轮未改动，以下 34 项与 Docker 结果为 2026-10-15 历史框架验证，不能当作本轮 GPU 训练证据。
 
 ## 2026-10-15 框架与旧困难批次验证

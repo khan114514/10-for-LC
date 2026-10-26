@@ -2,7 +2,7 @@
 
 Read README.md, requirements/common.md and the selected task card before editing or executing. These ten tasks are PREPARATION_ONLY; do not claim GPU reproduction, real research duration, Reference gain or formal QA without original evidence.
 
-Use skills/autoresearch-manager as the manager source for this handoff. Its fixed QA v0.3.4 files and release manifest are authoritative for that release: never weaken or patch them to pass. Real protocol changes require a new approved contract and affected evidence revalidation.
+Use skills/autoresearch-manager as the manager source for this handoff. Read references/phase3-v4-contract.md for the updated V4 content contract; do not carry over the prior batch's 2026-10-21/22 exemptions. Frozen QA v0.3.4 assets and their manifest remain authoritative only for that release, not official 0.3.10 tools. Obtain the real newer release and adapt its report contract before claiming V4/0.3.10 tool acceptance. Preserve original assets and reports, and revalidate affected evidence at safe migration boundaries.
 
 The whole repository contains author-only source links, solution ideas and audit materials. Do not mount it to an Actor, ship it as a task ZIP, or include reports/selection in the task image. Construct explicit public/hidden/reference/verifier boundaries.
 
